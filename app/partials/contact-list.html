@@ -1,0 +1,38 @@
+<div class="container" ng-controller="ContactListCtrl">
+	<h1>Contact list app</h1>
+	Search: <input class="" ng-model="query">
+    Sort by:
+    <select ng-model="orderProp">
+      <option value="name">Name</option>
+      <option value="email">Email</option>
+      <option value="phone">Phone</option>
+    </select>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Number</th>
+				<th>Action</th>
+				<th>&nbsp;</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><input class="form-control" ng-model="contact.name"/></td>
+				<td><input class="form-control" ng-model="contact.email"/></td>
+				<td><input class="form-control" ng-model="contact.number"/></td>
+				<td><button class="btn btn-primary" ng-click="addContact()">Add Contact</button></td>
+				<td><button class="btn btn-info" ng-click="updateContact()">Update</button></td>
+
+			</tr>
+			<tr ng-repeat="contact in contactList | filter:query | orderBy:orderProp">
+				<td><a href="#/contact-details/{{contact.id}}">{{contact.name}}</a></td>
+				<td>{{contact.email}}</td>
+				<td>{{contact.number}}</td>
+				<td><button class="btn btn-danger" ng-click="removeContact(contact.id);">Remove</button></td>
+				<td><button class="btn btn-warning" ng-click="editContact(contact.id);">Edit</button></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
