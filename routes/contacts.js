@@ -11,8 +11,7 @@ router.get('/contactList', function(req, res, next) {
   	models.Contact.findAll().then(function(contactList) {
     	res.json({
             type: true,
-            data: contactList,
-            token: 'custom-token'
+            data: contactList
         });
 	});
 });

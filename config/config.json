@@ -4,20 +4,24 @@
     "password": "salambc",
     "database": "assignment",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "authSecret" : "ilovescotchyscotch"
   },
   "test": {
     "username": "root",
     "password": null,
     "database": "database_test",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "authSecret" : "ilovescotchyscotch"
   },
   "production": {
     "username": "root",
     "password": null,
     "database": "database_production",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "authSecret" : "ilovescotchyscotch"
   }
+
 }

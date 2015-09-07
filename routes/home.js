@@ -2,6 +2,9 @@ var express = require('express');
 var bodyParser = require('body-parser')
 var router = express.Router();
 var models = require("../models");
+var env       = process.env.NODE_ENV || "development";
+var config    = require('../config/config.json')[env];
+var jwt        = require("jsonwebtoken");
 
 
 // ---------------------------------------------------------
@@ -24,11 +27,11 @@ router.post('/authenticate', function(req, res) {
 			} else {
 				// if user is found and password is right
 				// create a token
-				/*
-				var token = jwt.sign(user, config.secret, {
+				
+				var token = jwt.sign(user, config.authSecret, {
 					expiresInMinutes: 1440 // expires in 24 hours
-				});*/
-				var token = "custom-token";
+				});
+				//var token = "custom-token";
 
 				res.json({
 					success: true,
