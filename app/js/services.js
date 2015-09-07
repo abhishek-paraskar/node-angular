@@ -8,6 +8,7 @@ angular.module('contactApp')
         }
 
         function urlBase64Decode(str) {
+
             var output = str.replace('-', '+').replace('_', '/');
             switch (output.length % 4) {
                 case 0:
@@ -29,7 +30,7 @@ angular.module('contactApp')
             var user = {};
             if (typeof token !== 'undefined') {
                 var encoded = token.split('.')[1];
-                user = JSON.parse(urlBase64Decode(encoded));
+                //user = JSON.parse(urlBase64Decode(encoded));
             }
             return user;
         }
@@ -37,14 +38,17 @@ angular.module('contactApp')
         var currentUser = getUserFromToken();
 
         return {
-            save: function(data, success, error) {
+            signUp: function(data, success, error) {
                 $http.post(baseUrl + 'home/sign-up', data).success(success).error(error)
             },
             signin: function(data, success, error) {
-                $http.post(baseUrl + '/authenticate', data).success(success).error(error)
+                $http.post(baseUrl + 'home/authenticate', data).success(success).error(error)
             },
             me: function(success, error) {
                 $http.get(baseUrl + '/me/').success(success).error(error)
+            },
+            contactList: function(success, error) {
+                $http.get(baseUrl + 'contacts/contactList').success(success).error(error)
             },
             logout: function(success) {
                 changeUser({});

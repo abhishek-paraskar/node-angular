@@ -9,7 +9,11 @@ var models = require("../models");
 router.get('/contactList', function(req, res, next) {
   	console.log("I recieved the get request");
   	models.Contact.findAll().then(function(contactList) {
-    	res.json(contactList);
+    	res.json({
+            type: true,
+            data: contactList,
+            token: 'custom-token'
+        });
 	});
 });
 

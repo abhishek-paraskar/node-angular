@@ -15,7 +15,8 @@
     "angular-resource": "1.4.x",
     "angular-animate": "1.4.x",
     "angular-formly" : "6.26.1",
-    "angular-formly-templates-bootstrap" : "6.0.0"
+    "angular-formly-templates-bootstrap" : "6.0.0",
+    "ngstorage" : "0.3.9"
 
   }
 }

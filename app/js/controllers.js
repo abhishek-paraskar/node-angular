@@ -1,13 +1,16 @@
 var contactControllers = angular.module('contactControllers', []);
 
-contactControllers.controller('ContactListCtrl', ['$scope', '$http', function($scope, $http){
+contactControllers.controller('ContactListCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'Main', '$http', function($rootScope, $scope, $location, $localStorage, Main, $http){
 	
 	var refresh = function(){
-		$http.get('/contacts/contactList').success(function(response){
+		Main.contactList(function(response) {
 			console.log('I got the response');
-			$scope.contactList = response;
-		});
-		$scope.orderProp = 'name';
+            $localStorage.token = response.token;
+			$scope.contactList = response.data;
+        }, function() {
+            $rootScope.error = 'Failed to signin';
+        })
+		
 	}
 	
 	refresh();
@@ -48,6 +51,15 @@ contactControllers.controller('ContactListCtrl', ['$scope', '$http', function($s
 			$scope.contact = "";
 		});
 	}
+
+	$scope.logout = function() {
+        Main.logout(function() {
+        	console.log("Logout Success.. redirecting user..");
+            $location.path('/login');
+        }, function() {
+            $rootScope.error = 'Failed to logout';
+        });
+    };
 }]);
 
 contactControllers.controller('ContactDetailsCtrl', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http){
@@ -78,48 +90,30 @@ contactControllers.controller('SignUpCtrl', ['$rootScope', '$scope', '$location'
 
     $scope.signUpSubmit = function(isValid){
 		console.log("Form Submitted");	
-		
 		if(isValid){
-
-			$http.post('/home/sign-up', $scope.signUp).success(function(response){
-				console.log('I got the response - ');
-				console.log(response);
-				//$scope.contact = response;
-			});
-			/*
-			Main.save($scope.signUp, function(res) {
-	            $localStorage.token = res.data.token;
-	            $location.path('/contact-list');
+			Main.signUp($scope.signUp, function(res) {
+	            $location.path('/login');
 	        }, function() {
 	            $rootScope.error = 'Failed to signup';
-	        })*/
+	        })
 		}
    	}
-
-
-    $scope.me = function() {
-        Main.me(function(res) {
-            $scope.myDetails = res;
-        }, function() {
-            $rootScope.error = 'Failed to fetch details';
-        })
-    };
-
-    $scope.logout = function() {
-        Main.logout(function() {
-            $location.path('/');
-        }, function() {
-            $rootScope.error = 'Failed to logout';
-        });
-    };
 }]);
 
-contactControllers.controller('LoginCtrl', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http){
-  	console.log("LoginCtrl Controller - ");
-  	$http.get('/home/test').success(function(response){
-		console.log('I got the response - ');
-		console.log(response);
-	});
+contactControllers.controller('LoginCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'Main', '$http', function($rootScope, $scope, $location, $localStorage, Main, $http){
+  	$scope.submitSignInForm = function(isValid){
+		console.log("Form Submitted");	
+		if(isValid){
+			console.log($scope.signIn);	
+			Main.signin($scope.signIn, function(response) {
+	            $localStorage.token = response.token;
+	            console.log($localStorage.token)
+	            $location.path('/contact-list');
+	        }, function() {
+	            $rootScope.error = 'Failed to signin';
+	        })
+		}
+   	}
 }]);
 
 

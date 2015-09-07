@@ -9,18 +9,17 @@ var models = require("../models");
 // ---------------------------------------------------------
 // http://localhost:8080/api/authenticate
 router.post('/authenticate', function(req, res) {
-	console.log(req.query.email);
-	console.log(User)
-	User.findOne({
+	console.log(req.body.email);
+	models.User.findOne({
 		where: {
-			email: req.query.email
+			email: req.body.email
 		}
 	}).success(function(user) {
 		if (!user) {
 			res.json({ success: false, message: 'Authentication failed. User not found.' });
 		} else if (user) {
 			// check if password matches
-			if (user.password != req.query.password) {
+			if (user.password != req.body.password) {
 				res.json({ success: false, message: 'Authentication failed. Wrong password.' });
 			} else {
 				// if user is found and password is right
@@ -41,14 +40,8 @@ router.post('/authenticate', function(req, res) {
   	});
 });
 
-/* Add contact to database. */
+/* Add new user to database. */
 router.post('/sign-up', function(req, res, next) {
-	console.log("Name - " + req.body.first_name);
-	console.log("Email - " + req.body.email);
-	console.log("Last Name - " + req.body.last_name);
-	console.log("Password - " + req.body.password);
-	console.log("Profile - " + req.body.profile);
-	console.log("Holding - " + req.body.holding);
 	models.User.create({
 		name: req.body.first_name,
 		email: req.body.email,
@@ -57,25 +50,10 @@ router.post('/sign-up', function(req, res, next) {
 		profile: req.body.profile,
 		holding: req.body.holding
 	}).then(function(user) {
-		var token = "custom-token";
     	res.json({
-            success: true,
-            data: user,
-            token: token
+            success: true
         });
   	});
 });
-
-
-/* Add contact to database. */
-router.get('/test', function(req, res, next) {
-	
-	var token = "custom-token";
-	res.json({
-        success: true,
-        token: token
-    });
-});
-
 
 module.exports = router;

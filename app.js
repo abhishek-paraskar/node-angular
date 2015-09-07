@@ -28,7 +28,7 @@ app.use('/home', home);
 
 app.use(function(req, res, next) {
   // check header or url parameters or post parameters for token
-  var token = req.param('token') || req.headers['x-access-token'];
+  var token = req.headers["authorization"];
 
   // decode token
   if (token) {
