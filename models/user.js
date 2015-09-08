@@ -58,7 +58,7 @@ module.exports = function(sequelize, DataTypes) {
       		},
 
       		addUser : function(emailField, passwordField, nameField, lastNameField, profileIdField, holderIdField, callback){
-      			models.User.create({
+      			User.create({
               email: emailField,
               password: passwordField,
               name: nameField,
@@ -75,7 +75,7 @@ module.exports = function(sequelize, DataTypes) {
       		},
 
           updateUser : function(userId, emailField, passwordField, nameField, lastNameField, profileIdField, holderIdField, callback){
-            models.User.update({
+            User.update({
               email: emailField,
               password: passwordField,
               name: nameField,
@@ -94,34 +94,34 @@ module.exports = function(sequelize, DataTypes) {
           },
 
           getUserById : function(userId, callback){
-            models.User.findOne({
+            User.findOne({
               where: {
                 id: userId
               }
             }).then(function(user) {
               if(user)
-                callback.json(status : true, data : user);
+                callback(status : true, data : user);
               else
-                callback.json(status : false, message : 'User not found');
+                callback(status : false, message : 'User not found');
             }).catch(function(error){
               callback({success : false, message : error});
             });
           },
 
           deleteUser : function(userId, callback){
-            models.User.destroy({
+            User.destroy({
               where: {
                 id: userId
               }
             }).then(function() {
-              callback.json(status : true,);
+              callback(status : true,);
             }).catch(function(error){
               callback({success : false, message : error});
             });
           },
 
           getAllUsers : function(callback){
-            models.User.findAll().then(function(userList) {
+            User.findAll().then(function(userList) {
                 callback({
                       type: true,
                       data: contactList
