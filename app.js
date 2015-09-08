@@ -32,6 +32,7 @@ app.use('/home', home);
 
 app.use(function(req, res, next) {
   // check header or url parameters or post parameters for token
+  
   var token = req.headers["authorization"];
   console.log("Checking Autherization");  
   // decode token

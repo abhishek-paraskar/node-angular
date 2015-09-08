@@ -27,6 +27,7 @@
     "sequelize-cli": "^1.9.0",
     "serve-favicon": "~2.3.0",
     "express-jwt": "3.0.1",
+    "bcrypt" : "0.8.5",
     "jsonwebtoken": "5.0.5"
 
   }

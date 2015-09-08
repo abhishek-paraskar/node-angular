@@ -32,12 +32,12 @@
             </div>
             <div class="form-group"  ng-class="{ 'has-error' : signUpForm.profile.$invalid && !signUpForm.profile.$pristine }">
                 <label>Profile</label>
-                <input type="text" class="form-control" ng-model="signUp.profile" name="profile" required>
+                 <select class="form-control" ng-model="signUp.profile" ng-options="profile1.id as profile1.name for profile1 in profiles" name="profile" required></select>
                 <p ng-show="signUpForm.profile.$invalid && !signUpForm.profile.$pristine" class="help-block">You profile is required.</p>
             </div>
              <div class="form-group"  ng-class="{ 'has-error' : signUpForm.holding.$invalid && !signUpForm.holding.$pristine }">
                 <label>Holding</label>
-                <input type="text" class="form-control" ng-model="signUp.holding" name="holding" required>
+                <select class="form-control" ng-model="signUp.holding" ng-options="holding1.id as holding1.name for holding1 in holdings" name="holding" required></select>
                 <p ng-show="signUpForm.holding.$invalid && !signUpForm.holding.$pristine" class="help-block">You holding name is required.</p>
             </div>
             <button type="submit" class="btn btn-warning btn-lg">Signup</button>

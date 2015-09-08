@@ -50,6 +50,12 @@ angular.module('contactApp')
             contactList: function(success, error) {
                 $http.get(baseUrl + 'contacts/contactList').success(success).error(error)
             },
+            profiles: function(success, error) {
+                $http.get(baseUrl + 'home/profiles').success(success).error(error)
+            },
+            holdings: function(success, error) {
+                $http.get(baseUrl + 'home/holdings').success(success).error(error)
+            },
             logout: function(success) {
                 changeUser({});
                 delete $localStorage.token;

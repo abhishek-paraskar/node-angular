@@ -88,8 +88,30 @@ contactControllers.controller('SignUpCtrl', ['$rootScope', '$scope', '$location'
         })
     };
 
+    var profiles = function(){
+    	Main.profiles(function(res) {
+	    	$scope.profiles = res;
+        }, function() {
+            $rootScope.error = 'Failed to fetch profiles';
+        })
+    	
+    }
+
+    var holdings = function(){
+    	Main.holdings(function(res) {
+	    	$scope.holdings = res;
+        }, function() {
+            $rootScope.error = 'Failed to fetch holdings';
+        })
+    	
+    }
+    profiles();
+   	holdings();
+
     $scope.signUpSubmit = function(isValid){
 		console.log("Form Submitted");	
+		console.log($scope.signUp);
+		
 		if(isValid){
 			Main.signUp($scope.signUp, function(res) {
 	            $location.path('/login');
@@ -97,6 +119,7 @@ contactControllers.controller('SignUpCtrl', ['$rootScope', '$scope', '$location'
 	            $rootScope.error = 'Failed to signup';
 	        })
 		}
+		
    	}
 }]);
 
