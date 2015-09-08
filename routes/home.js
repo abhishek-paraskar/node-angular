@@ -5,8 +5,6 @@ var models = require("../models");
 var env       = process.env.NODE_ENV || "development";
 var config    = require('../config/config.json')[env];
 
-
-
 // ---------------------------------------------------------
 // authentication (no middleware necessary since this isnt authenticated)
 // ---------------------------------------------------------
@@ -23,8 +21,6 @@ router.post('/authenticate', function(req, res) {
 
 /* Add new user to database. */
 router.post('/sign-up', function(req, res, next) {
-	console.log("Profile Id - " + req.body.profile)
-	console.log("Holding Id - " + req.body.holding)
 	models.User.addUser(req.body.email, res.body.password, res.body.name, res.body.last_name, res.body.profile, res.body.holding, function(response){
 		if(response.success)
 			res.json(response);
@@ -40,11 +36,11 @@ router.get('/profiles', function(req, res, next) {
 	
 });
 
-
 /* Add new user to database. */
 router.get('/holdings', function(req, res, next) {
 	console.log("Inside Holdings --- ");
 	models.Holding.findAll({}).then(function(holdings) {res.json(holdings);});
 	
 });
+
 module.exports = router;
