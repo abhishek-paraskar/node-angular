@@ -21,12 +21,21 @@ router.post('/authenticate', function(req, res) {
 
 /* Add new user to database. */
 router.post('/sign-up', function(req, res, next) {
-	models.User.addUser(req.body.email, res.body.password, res.body.name, res.body.last_name, res.body.profile, res.body.holding, function(response){
+	console.log("Password - " + req.body.password);
+	console.log("name - " + req.body.first_name);
+	console.log("email - " + req.body.email);
+	console.log("last_name - " + req.body.last_name);
+	console.log("profile - " + req.body.profile);
+	console.log("holding - " + req.body.holding);
+	
+	models.User.addUser(req.body.email, req.body.password, req.body.first_name, req.body.last_name, req.body.profile, req.body.holding, function(response){
 		if(response.success)
 			res.json(response);
 		else
 			res.status(403).send(response);
 	})
+	
+	
 });
 
 /* Add new user to database. */

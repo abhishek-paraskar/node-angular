@@ -7,7 +7,8 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        Holding.hasMany(models.User, { foreignKey: 'holding_id', allowNull : false});
+        Holding.hasMany(models.User, { foreignKey: 'holding_id', as: 'holding'});
+        //Holding.hasMany(models.User, { foreignKey: 'holding_id', allowNull : false, foreignKeyConstraint:true});
       },
       addHolding : function(holdingName, callback){
           Holding.create({
@@ -40,9 +41,9 @@ module.exports = function(sequelize, DataTypes) {
             }
         }).then(function(holding) {
             if(holding){
-              callback(status : true, data : holding);
+              callback({status : true, data : holding});
             } else {
-              callback(status : false, message : 'Holding not found');
+              callback({status : false, message : 'Holding not found'});
             }
           }).catch(function(error){
             callback({success : false, message : error});
@@ -55,15 +56,15 @@ module.exports = function(sequelize, DataTypes) {
               id: holdingId
             }
         }).then(function() {
-            callback(status : true,);
+            callback({status : true});
         }).catch(function(error){
             callback({success : false, message : error});
-        });
+        }); 
       },
 
       getAllHolding : function(callback){
         Holding.findAll().then(function(holdingList) {
-            callback({type: true, data: holdingList});
+            callback({success: true, data: holdingList});
         }).catch(function(error){
             callback({success : false, message : error});
         });

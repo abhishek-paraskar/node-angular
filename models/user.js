@@ -6,7 +6,7 @@ var config    = require('../config/config.json')[env];
 
 var salt = bcrypt.genSaltSync(10);
 
-
+var models = require("../models");
 
 module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define("User", 
@@ -34,6 +34,10 @@ module.exports = function(sequelize, DataTypes) {
     	}
 	}, {
     	classMethods: {
+          associate: function(models) {
+            User.belongsTo(models.Profile, { foreignKey: 'profile_id', as: 'profile' });
+            User.belongsTo(models.Holding, { foreignKey: 'holding_id', as: 'holding' });
+          },
       		validateUser : function(emailField, passwordField, callback){
       			User.findOne({where: { email: emailField }}).success(function(user) {
       					if (!user) {
@@ -58,6 +62,8 @@ module.exports = function(sequelize, DataTypes) {
       		},
 
       		addUser : function(emailField, passwordField, nameField, lastNameField, profileIdField, holderIdField, callback){
+            console.log("Password addUser - " + passwordField);
+            
       			User.create({
               email: emailField,
               password: passwordField,
@@ -72,6 +78,7 @@ module.exports = function(sequelize, DataTypes) {
             }).catch(function(error){
               callback({success : false, message : error});
             });
+            
       		},
 
           updateUser : function(userId, emailField, passwordField, nameField, lastNameField, profileIdField, holderIdField, callback){
@@ -100,9 +107,9 @@ module.exports = function(sequelize, DataTypes) {
               }
             }).then(function(user) {
               if(user)
-                callback(status : true, data : user);
+                callback({status : true, data : user});
               else
-                callback(status : false, message : 'User not found');
+                callback({status : false, message : 'User not found'});
             }).catch(function(error){
               callback({success : false, message : error});
             });
@@ -114,23 +121,28 @@ module.exports = function(sequelize, DataTypes) {
                 id: userId
               }
             }).then(function() {
-              callback(status : true,);
+              callback({status : true});
             }).catch(function(error){
               callback({success : false, message : error});
             });
           },
 
-          getAllUsers : function(callback){
-            User.findAll().then(function(userList) {
-                callback({
-                      type: true,
-                      data: contactList
-                  });
+          getAllUsers : function(models, callback){
+            console.log("Getting userlist");
+            User.findAll({raw: true, include: [
+              {model: models.Profile, as : "profile"}
+            ]}).then(function(userList) {
+              console.log("got the userlist - " + userList);
+              callback(userList);
             }).catch(function(error){
+              console.log(error.toString());
               callback({success : false, message : error});
             });
           }
     	}
   	});
-  return User;
+
+    
+
+    return User;
 };

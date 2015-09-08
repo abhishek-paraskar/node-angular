@@ -1,0 +1,33 @@
+<div class="container" ng-controller="UserCtrl">
+	<h1>User list</h1>
+	Search: <input class="" ng-model="query">
+    Sort by:
+    <select ng-model="orderProp">
+      <option value="name">Name</option>
+      <option value="last_name">Last name</option>
+      <option value="email">Email</option>
+      <option value="profile">Profile</option>
+      <option value="holding">Holding</option>
+    </select>
+    <a href="#" ng-click="logout()">Logout</a>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Last name</th>
+				<th>Email</th>
+				<th>Profile</th>
+				<th>Holding</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="user in userList | filter:query | orderBy:orderProp">
+				<td><a href="#/contact-details/{{user.id}}">{{user.name}}</a></td>
+				<td>{{user.last_name}}</td>
+				<td>{{user.email}}</td>
+				<td>{{user.profile_id}}</td>
+				<td>{{user.holding_id}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

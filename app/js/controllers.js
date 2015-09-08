@@ -62,6 +62,70 @@ contactControllers.controller('ContactListCtrl', ['$rootScope', '$scope', '$loca
     };
 }]);
 
+
+contactControllers.controller('UserCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'Main', '$http', function($rootScope, $scope, $location, $localStorage, Main, $http){
+	
+	var refresh = function(){
+		Main.userList(function(response) {
+			console.log('I got the response');
+			$scope.userList = response;
+        }, function() {
+            $rootScope.error = 'Failed to signin';
+        })
+	}
+	
+	refresh();
+
+	$scope.addContact = function(){
+		console.log($scope.contact);
+		$http.post('/contacts/add-contact', $scope.contact).success(function(response){
+			console.log(response);
+			refresh();
+			$scope.contact = "";
+		});
+	}
+
+	$scope.removeContact = function(id){
+		console.log("Removing Contact - " + id);
+		$http.get('/contacts/delete-contact/' + id).success(function(response){
+			console.log('I got the response');
+			refresh();
+		});
+		
+	}
+
+	$scope.editContact = function(id){
+		console.log("Edit Contact - " + id)
+		$http.get('/contacts/edit-contact/' + id).success(function(response){
+			console.log('I got the response - ' + response.toString());
+			console.log(response);
+			$scope.contact = response;
+		});
+	}
+
+	$scope.updateContact = function(){
+		console.log($scope.contact);
+		$http.post('/contacts/update-contact', $scope.contact).success(function(response){
+			console.log('I got the response');
+			console.log(response);
+			refresh();
+			$scope.contact = "";
+		});
+	}
+
+	$scope.logout = function() {
+        Main.logout(function() {
+        	console.log("Logout Success.. redirecting user..");
+            $location.path('/login');
+        }, function() {
+            $rootScope.error = 'Failed to logout';
+        });
+    };
+}]);
+
+
+
+
 contactControllers.controller('ContactDetailsCtrl', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http){
   //console.log("Contact Details Controller - " + $routeParams.contactId);
 	$scope.contactId = $routeParams.contactId;
@@ -131,7 +195,7 @@ contactControllers.controller('LoginCtrl', ['$rootScope', '$scope', '$location',
 			Main.signin($scope.signIn, function(response) {
 	            $localStorage.token = response.token;
 	            console.log($localStorage.token)
-	            $location.path('/contact-list');
+	            $location.path('/user-list');
 	        }, function() {
 	            $rootScope.error = 'Failed to signin';
 	        })

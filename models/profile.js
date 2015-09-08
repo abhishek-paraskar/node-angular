@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
 
       associate: function(models) {
-          Profile.hasMany(models.User, { foreignKey: 'profile_id', allowNull : false});
+          Profile.hasMany(models.User, { foreignKey: 'profile_id', as: 'profile'});
       }, 
 
       addProfile : function(profileName, callback){
@@ -42,9 +42,9 @@ module.exports = function(sequelize, DataTypes) {
             }
         }).then(function(profile) {
             if(profile){
-              callback(status : true, data : profile);
+              callback({status : true, data : profile});
             } else {
-              callback(status : false, message : 'Profile not found');
+              callback({status : false, message : 'Profile not found'});
             }
           }).catch(function(error){
             callback({success : false, message : error});
@@ -57,7 +57,7 @@ module.exports = function(sequelize, DataTypes) {
               id: profileId
             }
         }).then(function() {
-            callback(status : true,);
+            callback({status : true});
         }).catch(function(error){
             callback({success : false, message : error});
         });
@@ -65,7 +65,7 @@ module.exports = function(sequelize, DataTypes) {
 
       getAllProfiles : function(callback){
         Profile.findAll().then(function(profileList) {
-            callback({type: true, data: profileList});
+            callback({success: true, data: profileList});
         }).catch(function(error){
             callback({success : false, message : error});
         });

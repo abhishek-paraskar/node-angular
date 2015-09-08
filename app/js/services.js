@@ -47,6 +47,9 @@ angular.module('contactApp')
             me: function(success, error) {
                 $http.get(baseUrl + '/me/').success(success).error(error)
             },
+            userList: function(success, error) {
+                $http.get(baseUrl + 'users/user-list').success(success).error(error)
+            },
             contactList: function(success, error) {
                 $http.get(baseUrl + 'contacts/contactList').success(success).error(error)
             },

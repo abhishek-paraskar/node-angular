@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, 'app')));
 var home = require('./routes/home');
 app.use('/home', home);
 
-
+/*
 app.use(function(req, res, next) {
   // check header or url parameters or post parameters for token
   
@@ -69,13 +69,18 @@ app.use(function(req, res, next) {
   }
   
 });
+*/
 
 
 // routes ======================================================================
 var users = require('./routes/users');
+var profile = require('./routes/profile');
+var holding = require('./routes/holding');
 var contacts = require('./routes/contacts');
 
 app.use('/users', users);
+app.use('/profile', profile);
+app.use('/holding', holding);
 app.use('/contacts', contacts);
 
 

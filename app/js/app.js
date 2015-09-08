@@ -30,6 +30,10 @@ contactApp.config(['$routeProvider', '$locationProvider', '$httpProvider', funct
         templateUrl: 'partials/signup.html',
         controller: 'SignUpCtrl'
       }).
+      when('/user-list', {
+        templateUrl: 'partials/user-list.html',
+        controller: 'UserCtrl'
+      }).
       when('/', {
         templateUrl: 'partials/home.html',
         controller: 'HomeCtrl'
@@ -38,6 +42,7 @@ contactApp.config(['$routeProvider', '$locationProvider', '$httpProvider', funct
         redirectTo: '/'
       });
 
+      /*
     $httpProvider.interceptors.push(['$q', '$location', '$localStorage', function($q, $location, $localStorage) {
           return {
               'request': function (config) {
@@ -46,7 +51,7 @@ contactApp.config(['$routeProvider', '$locationProvider', '$httpProvider', funct
                       config.headers.Authorization = 'Bearer ' + $localStorage.token;
                       var restrictedPage = $.inArray($location.path(), ['/login', '/signup', '/home', '/']) === -1;
                       if(!restrictedPage) {
-                          $location.path('/contact-list');
+                          $location.path('/user-list');
                       }
                   }
                   return config;
@@ -60,6 +65,7 @@ contactApp.config(['$routeProvider', '$locationProvider', '$httpProvider', funct
               }
           };
       }]);
+*/
 
   }]);
 
