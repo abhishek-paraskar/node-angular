@@ -41,20 +41,20 @@ router.post('/add-user', function(req, res, next) {
 router.get('/delete-user/:user_id', function(req, res, next) {
 
 	models.User.deleteUser(req.params.user_id, function(response){
-		if(response.success)
-			res.json(response);
-		else
+		if(typeof response.success != "undefined" && !response.success)
 			res.status(403).send(response);
+		else
+			res.json(response);
 	});
 });
 
 /* Get the user by id from db. */
-router.get('/edit-user/:user_id', function(req, res, next) {
+router.get('/get-user/:user_id', function(req, res, next) {
 	models.User.getUserById(req.params.user_id, function(response){
-		if(response.success)
-			res.json(response);
-		else
+		if(typeof response.success != "undefined" && !response.success)
 			res.status(403).send(response);
+		else
+			res.json(response);
 	});
 });
 

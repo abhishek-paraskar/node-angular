@@ -130,7 +130,7 @@ module.exports = function(sequelize, DataTypes) {
           getAllUsers : function(models, callback){
             console.log("Getting userlist");
             User.findAll({raw: true, include: [
-              {model: models.Profile, as : "profile"}
+              {model: models.Profile, as : "profile"}, {model: models.Holding, as : "holding"}
             ]}).then(function(userList) {
               console.log("got the userlist - " + userList);
               callback(userList);

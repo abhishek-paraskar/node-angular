@@ -1,4 +1,4 @@
-<div class="container" ng-controller="UserCtrl">
+<div class="container" ng-controller="UserListCtrl">
 	<h1>User list</h1>
 	Search: <input class="" ng-model="query">
     Sort by:
@@ -22,11 +22,11 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="user in userList | filter:query | orderBy:orderProp">
-				<td><a href="#/contact-details/{{user.id}}">{{user.name}}</a></td>
+				<td><a href="#/edit-user/{{user.id}}">{{user.name}}</a></td>
 				<td>{{user.last_name}}</td>
 				<td>{{user.email}}</td>
-				<td>{{user.profile_id}}</td>
-				<td>{{user.holding_id}}</td>
+				<td>{{user.profile.name}}</td>
+				<td>{{user.holding.name}}</td>
 			</tr>
 		</tbody>
 	</table>

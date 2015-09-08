@@ -32,7 +32,11 @@ contactApp.config(['$routeProvider', '$locationProvider', '$httpProvider', funct
       }).
       when('/user-list', {
         templateUrl: 'partials/user-list.html',
-        controller: 'UserCtrl'
+        controller: 'UserListCtrl'
+      }).
+      when('/edit-user/:userId', {
+        templateUrl: 'partials/edit-user.html',
+        controller: 'EditUserCtrl'
       }).
       when('/', {
         templateUrl: 'partials/home.html',

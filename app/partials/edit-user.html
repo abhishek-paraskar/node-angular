@@ -1,0 +1,42 @@
+<div class="container" ng-controller="EditUserCtrl">
+
+    <div class="col-sm-6 col-sm-offset-3">
+
+        <h1><span class="fa fa-sign-in"></span> Edit User</h1>
+        <!-- show any messages that come back with authentication -->
+     
+
+        <!-- Edit user FORM -->
+        <form name="editUserForm" ng-submit="editUserSubmit(editUserForm.$valid)" novalidate>
+            <div class="form-group" ng-class="{ 'has-error' : editUserForm.email.$invalid && !editUserForm.email.$pristine }">
+                <label>Email</label>
+                <input type="email" class="form-control" ng-model="editUser.email" name="email" required>
+                <p ng-show="editUserForm.email.$invalid && !editUserForm.email.$pristine" class="help-block">Enter valid email address.</p>
+            </div>
+            <div class="form-group"  ng-class="{ 'has-error' : editUserForm.first_name.$invalid && !editUserForm.first_name.$pristine }">
+                <label>Name</label>
+                <input type="text" class="form-control" ng-model="editUser.name" name="name" required>
+                <p ng-show="editUserForm.first_name.$invalid && !editUserForm.first_name.$pristine" class="help-block">Your name is required.</p>
+            </div>
+            <div class="form-group"  ng-class="{ 'has-error' : editUserForm.last_name.$invalid && !editUserForm.last_name.$pristine }">
+                <label>Last name</label>
+                <input type="text" class="form-control" ng-model="editUser.last_name" name="last_name" required>
+                <p ng-show="editUserForm.last_name.$invalid && !editUserForm.last_name.$pristine" class="help-block">You last name is required.</p>
+            </div>
+            <div class="form-group"  ng-class="{ 'has-error' : editUserForm.profile.$invalid && !editUserForm.profile.$pristine }">
+                <label>Profile</label>
+                 <select class="form-control" ng-model="editUser.profile" ng-options="profile1.id as profile1.name for profile1 in profiles" name="profile" required></select>
+                <p ng-show="editUserForm.profile.$invalid && !editUserForm.profile.$pristine" class="help-block">You profile is required.</p>
+            </div>
+             <div class="form-group"  ng-class="{ 'has-error' : editUserForm.holding.$invalid && !editUserForm.holding.$pristine }">
+                <label>Holding</label>
+                <select class="form-control" ng-model="editUser.holding" ng-options="holding1.id as holding1.name for holding1 in holdings" name="holding" required></select>
+                <p ng-show="editUserForm.holding.$invalid && !editUserForm.holding.$pristine" class="help-block">You holding name is required.</p>
+            </div>
+            <button type="submit" class="btn btn-warning btn-lg">Update</button>
+            <button type="submit" class="btn btn-lg">Cancel</button>
+        </form>
+
+    </div>
+
+</div>

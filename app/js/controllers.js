@@ -63,7 +63,7 @@ contactControllers.controller('ContactListCtrl', ['$rootScope', '$scope', '$loca
 }]);
 
 
-contactControllers.controller('UserCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'Main', '$http', function($rootScope, $scope, $location, $localStorage, Main, $http){
+contactControllers.controller('UserListCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'Main', '$http', function($rootScope, $scope, $location, $localStorage, Main, $http){
 	
 	var refresh = function(){
 		Main.userList(function(response) {
@@ -76,43 +76,6 @@ contactControllers.controller('UserCtrl', ['$rootScope', '$scope', '$location', 
 	
 	refresh();
 
-	$scope.addContact = function(){
-		console.log($scope.contact);
-		$http.post('/contacts/add-contact', $scope.contact).success(function(response){
-			console.log(response);
-			refresh();
-			$scope.contact = "";
-		});
-	}
-
-	$scope.removeContact = function(id){
-		console.log("Removing Contact - " + id);
-		$http.get('/contacts/delete-contact/' + id).success(function(response){
-			console.log('I got the response');
-			refresh();
-		});
-		
-	}
-
-	$scope.editContact = function(id){
-		console.log("Edit Contact - " + id)
-		$http.get('/contacts/edit-contact/' + id).success(function(response){
-			console.log('I got the response - ' + response.toString());
-			console.log(response);
-			$scope.contact = response;
-		});
-	}
-
-	$scope.updateContact = function(){
-		console.log($scope.contact);
-		$http.post('/contacts/update-contact', $scope.contact).success(function(response){
-			console.log('I got the response');
-			console.log(response);
-			refresh();
-			$scope.contact = "";
-		});
-	}
-
 	$scope.logout = function() {
         Main.logout(function() {
         	console.log("Logout Success.. redirecting user..");
@@ -123,7 +86,48 @@ contactControllers.controller('UserCtrl', ['$rootScope', '$scope', '$location', 
     };
 }]);
 
+contactControllers.controller('EditUserCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$localStorage', 'Main', '$http', function($rootScope, $scope, $routeParams, $location, $localStorage, Main, $http){
+	$scope.editUserSubmit = function(){
+		Main.userList(function(response) {
+			console.log('I got the response');
+			$scope.userList = response;
+        }, function() {
+            $rootScope.error = 'Failed to signin';
+        })
+	}
+	$scope.userId = $routeParams.userId;
+	var refresh = function(){
+		console.log("---" + $scope.userId)
+		Main.getUserDetails($routeParams.userId, function(response) {
+			console.log('I got the response - ' + response.data);
+			$scope.editUser = response.data;
+			$scope.editUser.profile = response.data.profile_id;
+			$scope.editUser.holding = response.data.holding_id;
+        }, function() {
+            $rootScope.error = 'Failed to signin';
+        })
+	}
+	var profiles = function(){
+    	Main.profiles(function(res) {
+	    	$scope.profiles = res;
+        }, function() {
+            $rootScope.error = 'Failed to fetch profiles';
+        })
+    	
+    }
 
+    var holdings = function(){
+    	Main.holdings(function(res) {
+	    	$scope.holdings = res;
+        }, function() {
+            $rootScope.error = 'Failed to fetch holdings';
+        })
+    	
+    }
+    profiles();
+   	holdings();
+	refresh();
+}]);
 
 
 contactControllers.controller('ContactDetailsCtrl', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http){
