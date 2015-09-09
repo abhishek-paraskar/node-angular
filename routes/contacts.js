@@ -8,9 +8,10 @@ var models = require("../models");
 /* GET users listing. */
 router.get('/contactList', function(req, res, next) {
   	console.log("I recieved the get request");
-  	models.Contact.findAll().then(function(contactList) {
+  	models.Contact.findAll({raw:true}).then(function(contactList) {
+  		console.log("Contact List - " + contactList);
     	res.json({
-            type: true,
+            success: true,
             data: contactList
         });
 	});

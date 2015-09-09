@@ -60,11 +60,19 @@ router.get('/get-user/:user_id', function(req, res, next) {
 
 /* Update the user by id in db. */
 router.post('/update-user', function(req, res, next) {
-	models.User.updateUser(req.body.id, req.body.email, req.body.password, req.body.name, req.body.last_name, req.body.profile, req.body.holding, function(response){
+	console.log("name - " + req.body.name);
+	console.log("email - " + req.body.email);
+	console.log("last_name - " + req.body.last_name);
+	console.log("profile - " + req.body.profile_id);
+	console.log("holding - " + req.body.holding_id);
+
+	
+	models.User.updateUser(req.body.id, req.body.email, req.body.name, req.body.last_name, req.body.profile_id, req.body.holding_id, function(response){
 		if(response.success)
 			res.json(response);
 		else
 			res.status(403).send(response);
 	});
+
 });
 module.exports = router;

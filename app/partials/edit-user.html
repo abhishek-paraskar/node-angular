@@ -23,15 +23,15 @@
                 <input type="text" class="form-control" ng-model="editUser.last_name" name="last_name" required>
                 <p ng-show="editUserForm.last_name.$invalid && !editUserForm.last_name.$pristine" class="help-block">You last name is required.</p>
             </div>
-            <div class="form-group"  ng-class="{ 'has-error' : editUserForm.profile.$invalid && !editUserForm.profile.$pristine }">
+            <div class="form-group"  ng-class="{ 'has-error' : editUserForm.profile_id.$invalid && !editUserForm.profile_id.$pristine }">
                 <label>Profile</label>
-                 <select class="form-control" ng-model="editUser.profile" ng-options="profile1.id as profile1.name for profile1 in profiles" name="profile" required></select>
-                <p ng-show="editUserForm.profile.$invalid && !editUserForm.profile.$pristine" class="help-block">You profile is required.</p>
+                 <select class="form-control" ng-model="editUser.profile_id" ng-options="profile1.id as profile1.name for profile1 in profiles" name="profile_id" required></select>
+                <p ng-show="editUserForm.profile_id.$invalid && !editUserForm.profile_id.$pristine" class="help-block">You profile is required.</p>
             </div>
-             <div class="form-group"  ng-class="{ 'has-error' : editUserForm.holding.$invalid && !editUserForm.holding.$pristine }">
+             <div class="form-group"  ng-class="{ 'has-error' : editUserForm.holding_id.$invalid && !editUserForm.holding_id.$pristine }">
                 <label>Holding</label>
-                <select class="form-control" ng-model="editUser.holding" ng-options="holding1.id as holding1.name for holding1 in holdings" name="holding" required></select>
-                <p ng-show="editUserForm.holding.$invalid && !editUserForm.holding.$pristine" class="help-block">You holding name is required.</p>
+                <select class="form-control" ng-model="editUser.holding_id" ng-options="holding1.id as holding1.name for holding1 in holdings" name="holding_id" required></select>
+                <p ng-show="editUserForm.holding_id.$invalid && !editUserForm.holding_id.$pristine" class="help-block">You holding name is required.</p>
             </div>
             <button type="submit" class="btn btn-warning btn-lg">Update</button>
             <button type="submit" class="btn btn-lg">Cancel</button>

@@ -53,6 +53,9 @@ angular.module('contactApp')
             getUserDetails: function(userId, success, error) {
                 $http.get(baseUrl + 'users/get-user/' + userId).success(success).error(error)
             },
+            updateUser: function(data, success, error) {
+                $http.post(baseUrl + 'users/update-user', data).success(success).error(error)
+            },
             contactList: function(success, error) {
                 $http.get(baseUrl + 'contacts/contactList').success(success).error(error)
             },

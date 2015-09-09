@@ -2,10 +2,10 @@ var contactControllers = angular.module('contactControllers', []);
 
 contactControllers.controller('ContactListCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'Main', '$http', function($rootScope, $scope, $location, $localStorage, Main, $http){
 	
-	var refresh = function(){
+	var getContactList = function(){
+		console.log("ContactListCtrl")
 		Main.contactList(function(response) {
-			console.log('I got the response');
-            $localStorage.token = response.token;
+			console.log('I got the response - ' + response.data);
 			$scope.contactList = response.data;
         }, function() {
             $rootScope.error = 'Failed to signin';
@@ -13,13 +13,13 @@ contactControllers.controller('ContactListCtrl', ['$rootScope', '$scope', '$loca
 		
 	}
 	
-	refresh();
+	getContactList();
 
 	$scope.addContact = function(){
 		console.log($scope.contact);
 		$http.post('/contacts/add-contact', $scope.contact).success(function(response){
 			console.log(response);
-			refresh();
+			getContactList();
 			$scope.contact = "";
 		});
 	}
@@ -28,7 +28,7 @@ contactControllers.controller('ContactListCtrl', ['$rootScope', '$scope', '$loca
 		console.log("Removing Contact - " + id);
 		$http.get('/contacts/delete-contact/' + id).success(function(response){
 			console.log('I got the response');
-			refresh();
+			getContactList();
 		});
 		
 	}
@@ -47,7 +47,7 @@ contactControllers.controller('ContactListCtrl', ['$rootScope', '$scope', '$loca
 		$http.post('/contacts/update-contact', $scope.contact).success(function(response){
 			console.log('I got the response');
 			console.log(response);
-			refresh();
+			getContactList();
 			$scope.contact = "";
 		});
 	}
@@ -65,7 +65,8 @@ contactControllers.controller('ContactListCtrl', ['$rootScope', '$scope', '$loca
 
 contactControllers.controller('UserListCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'Main', '$http', function($rootScope, $scope, $location, $localStorage, Main, $http){
 	
-	var refresh = function(){
+	var getUserList = function(){
+		console.log("UserListCtrl")
 		Main.userList(function(response) {
 			console.log('I got the response');
 			$scope.userList = response;
@@ -74,11 +75,10 @@ contactControllers.controller('UserListCtrl', ['$rootScope', '$scope', '$locatio
         })
 	}
 	
-	refresh();
+	getUserList();
 
 	$scope.logout = function() {
         Main.logout(function() {
-        	console.log("Logout Success.. redirecting user..");
             $location.path('/login');
         }, function() {
             $rootScope.error = 'Failed to logout';
@@ -88,21 +88,22 @@ contactControllers.controller('UserListCtrl', ['$rootScope', '$scope', '$locatio
 
 contactControllers.controller('EditUserCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$localStorage', 'Main', '$http', function($rootScope, $scope, $routeParams, $location, $localStorage, Main, $http){
 	$scope.editUserSubmit = function(){
-		Main.userList(function(response) {
-			console.log('I got the response');
-			$scope.userList = response;
+		console.log($scope.editUser);
+
+		Main.updateUser($scope.editUser, function(response) {
+			$location.path('/user-list');
         }, function() {
             $rootScope.error = 'Failed to signin';
         })
+
 	}
+
 	$scope.userId = $routeParams.userId;
-	var refresh = function(){
-		console.log("---" + $scope.userId)
+	var getUserDetails = function(){
 		Main.getUserDetails($routeParams.userId, function(response) {
-			console.log('I got the response - ' + response.data);
 			$scope.editUser = response.data;
-			$scope.editUser.profile = response.data.profile_id;
-			$scope.editUser.holding = response.data.holding_id;
+			$scope.editUser.profile_id = response.data.profile_id;
+			$scope.editUser.holding_id = response.data.holding_id;
         }, function() {
             $rootScope.error = 'Failed to signin';
         })
@@ -126,7 +127,7 @@ contactControllers.controller('EditUserCtrl', ['$rootScope', '$scope', '$routePa
     }
     profiles();
    	holdings();
-	refresh();
+	getUserDetails();
 }]);
 
 

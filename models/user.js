@@ -17,10 +17,7 @@ module.exports = function(sequelize, DataTypes) {
     	},
     	password: {
     		type: DataTypes.STRING,
-    		allowNull : false,
-    		set : function(value){
-    			this.setDataValue('password', bcrypt.hashSync(value, salt));
-    		}
+    		allowNull : false
     	},
     	name: {
     		type : DataTypes.STRING(45),
@@ -66,7 +63,7 @@ module.exports = function(sequelize, DataTypes) {
             
       			User.create({
               email: emailField,
-              password: passwordField,
+              password: bcrypt.hashSync(passwordField, salt),
               name: nameField,
               last_name: lastNameField,
               profile_id: profileIdField,
@@ -78,13 +75,11 @@ module.exports = function(sequelize, DataTypes) {
             }).catch(function(error){
               callback({success : false, message : error});
             });
-            
       		},
 
-          updateUser : function(userId, emailField, passwordField, nameField, lastNameField, profileIdField, holderIdField, callback){
+          updateUser : function(userId, emailField, nameField, lastNameField, profileIdField, holderIdField, callback){
             User.update({
               email: emailField,
-              password: passwordField,
               name: nameField,
               last_name: lastNameField,
               profile_id: profileIdField,
@@ -104,7 +99,8 @@ module.exports = function(sequelize, DataTypes) {
             User.findOne({
               where: {
                 id: userId
-              }
+              },
+              attributes : ['id', 'email', 'name', 'last_name', 'profile_id', 'holding_id']
             }).then(function(user) {
               if(user)
                 callback({status : true, data : user});
