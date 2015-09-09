@@ -4,6 +4,7 @@
 var contactApp = angular.module('contactApp', [
   'ngRoute',
   'ngStorage',
+  'ngBootbox',
   'contactControllers'
 ]);
 
@@ -38,6 +39,10 @@ contactApp.config(['$routeProvider', '$locationProvider', '$httpProvider', funct
         templateUrl: 'partials/edit-user.html',
         controller: 'EditUserCtrl'
       }).
+      when('/add-user', {
+        templateUrl: 'partials/add-user.html',
+        controller: 'AddUserCtrl'
+      }).
       when('/', {
         templateUrl: 'partials/home.html',
         controller: 'HomeCtrl'
@@ -46,7 +51,7 @@ contactApp.config(['$routeProvider', '$locationProvider', '$httpProvider', funct
         redirectTo: '/'
       });
 
-      /*
+      
     $httpProvider.interceptors.push(['$q', '$location', '$localStorage', function($q, $location, $localStorage) {
           return {
               'request': function (config) {
@@ -69,7 +74,7 @@ contactApp.config(['$routeProvider', '$locationProvider', '$httpProvider', funct
               }
           };
       }]);
-*/
+
 
   }]);
 

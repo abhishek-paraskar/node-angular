@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, 'app')));
 var home = require('./routes/home');
 app.use('/home', home);
 
-/*
+
 app.use(function(req, res, next) {
   // check header or url parameters or post parameters for token
   
@@ -69,7 +69,7 @@ app.use(function(req, res, next) {
   }
   
 });
-*/
+
 
 
 // routes ======================================================================

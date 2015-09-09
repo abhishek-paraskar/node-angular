@@ -36,7 +36,9 @@ module.exports = function(sequelize, DataTypes) {
             User.belongsTo(models.Holding, { foreignKey: 'holding_id', as: 'holding' });
           },
       		validateUser : function(emailField, passwordField, callback){
-      			User.findOne({where: { email: emailField }}).success(function(user) {
+      			User.findOne({
+                  where: { email: emailField }
+                }).success(function(user) {
       					if (!user) {
       						callback({ success: false, message: 'Authentication failed. User not found.' });
       					} else if (user) {
@@ -45,6 +47,7 @@ module.exports = function(sequelize, DataTypes) {
       							callback({ success: false, message: 'Authentication failed. Wrong password.' });
       						} else {
       							// if user is found and password is right create a token
+                    
       							var token = jwt.sign(user, config.authSecret, {
       								expiresInMinutes: 3 // expires in 3 mins
       							});
@@ -59,8 +62,6 @@ module.exports = function(sequelize, DataTypes) {
       		},
 
       		addUser : function(emailField, passwordField, nameField, lastNameField, profileIdField, holderIdField, callback){
-            console.log("Password addUser - " + passwordField);
-            
       			User.create({
               email: emailField,
               password: bcrypt.hashSync(passwordField, salt),
@@ -101,6 +102,7 @@ module.exports = function(sequelize, DataTypes) {
                 id: userId
               },
               attributes : ['id', 'email', 'name', 'last_name', 'profile_id', 'holding_id']
+              
             }).then(function(user) {
               if(user)
                 callback({status : true, data : user});
@@ -124,14 +126,20 @@ module.exports = function(sequelize, DataTypes) {
           },
 
           getAllUsers : function(models, callback){
-            console.log("Getting userlist");
-            User.findAll({raw: true, include: [
-              {model: models.Profile, as : "profile"}, {model: models.Holding, as : "holding"}
-            ]}).then(function(userList) {
-              console.log("got the userlist - " + userList);
+            User.findAll({raw: true, 
+              attributes : ['id', 'email', 'name', 'last_name', 'profile_id', 'holding_id'], 
+              include: [{
+                model: models.Profile, 
+                as : "profile",
+                attributes : ['name']
+              }, {
+                model: models.Holding, 
+                as : "holding",
+                attributes : ['name']
+              }]
+            }).then(function(userList) {
               callback(userList);
             }).catch(function(error){
-              console.log(error.toString());
               callback({success : false, message : error});
             });
           }

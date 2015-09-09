@@ -64,19 +64,21 @@ contactControllers.controller('ContactListCtrl', ['$rootScope', '$scope', '$loca
 
 
 contactControllers.controller('UserListCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'Main', '$http', function($rootScope, $scope, $location, $localStorage, Main, $http){
-	
+	console.log(bootbox);
 	var getUserList = function(){
 		console.log("UserListCtrl")
 		Main.userList(function(response) {
-			console.log('I got the response');
+			console.log(Main.getUser());
 			$scope.userList = response;
         }, function() {
             $rootScope.error = 'Failed to signin';
         })
+
+
 	}
 	
 	getUserList();
-
+	$scope.currentUser = 
 	$scope.logout = function() {
         Main.logout(function() {
             $location.path('/login');
@@ -84,17 +86,72 @@ contactControllers.controller('UserListCtrl', ['$rootScope', '$scope', '$locatio
             $rootScope.error = 'Failed to logout';
         });
     };
+
+    $scope.addUser = function(){
+    	$location.path('/add-user');
+    }
+
+    $scope.deleteUser = function(id){
+    	Main.deleteUser(id, function(response) {
+				console.log('I got the response');
+				getUserList();
+	        }, function() {
+	            $rootScope.error = 'Failed to signin';
+	        });
+    	
+    	
+		
+    }
+}]);
+
+contactControllers.controller('AddUserCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'Main', '$http', function($rootScope, $scope, $location, $localStorage, Main, $http){
+	$scope.addUser = "";
+	$scope.addUserSubmit = function(isValid){
+		console.log($scope.addUser);
+		if(isValid){
+			console.log("Form is valid");
+			Main.addUser($scope.addUser, function(response) {
+				$location.path('/user-list');
+	        }, function() {
+	            $rootScope.error = 'Failed to signin';
+	        })
+		}
+	}
+
+	var profiles = function(){
+    	Main.profiles(function(res) {
+	    	$scope.profiles = res;
+	    	console.log(res[0].id);
+	    	$scope.addUser.profile_id = res[0].id;
+        }, function() {
+            $rootScope.error = 'Failed to fetch profiles';
+        })
+    	
+    }
+
+    var holdings = function(){
+    	Main.holdings(function(res) {
+	    	$scope.holdings = res;
+	    	$scope.addUser.holding_id = res[0].id;
+        }, function() {
+            $rootScope.error = 'Failed to fetch holdings';
+        })
+    	
+    }
+    profiles();
+   	holdings();
 }]);
 
 contactControllers.controller('EditUserCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$localStorage', 'Main', '$http', function($rootScope, $scope, $routeParams, $location, $localStorage, Main, $http){
-	$scope.editUserSubmit = function(){
+	$scope.editUserSubmit = function(isValid){
 		console.log($scope.editUser);
-
-		Main.updateUser($scope.editUser, function(response) {
-			$location.path('/user-list');
-        }, function() {
-            $rootScope.error = 'Failed to signin';
-        })
+		if(isValid){
+			Main.updateUser($scope.editUser, function(response) {
+				$location.path('/user-list');
+	        }, function() {
+	            $rootScope.error = 'Failed to signin';
+	        })
+		}
 
 	}
 
@@ -143,6 +200,7 @@ contactControllers.controller('ContactDetailsCtrl', ['$scope', '$routeParams', '
 }]);
 
 contactControllers.controller('SignUpCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'Main', '$http', function($rootScope, $scope, $location, $localStorage, Main, $http){
+	//$scope.signUp = "";
   	$scope.signin = function() {
         var formData = {
             email: $scope.email,
@@ -160,6 +218,7 @@ contactControllers.controller('SignUpCtrl', ['$rootScope', '$scope', '$location'
     var profiles = function(){
     	Main.profiles(function(res) {
 	    	$scope.profiles = res;
+	    	//$scope.signUp.profile = res[0].id;
         }, function() {
             $rootScope.error = 'Failed to fetch profiles';
         })
@@ -169,6 +228,7 @@ contactControllers.controller('SignUpCtrl', ['$rootScope', '$scope', '$location'
     var holdings = function(){
     	Main.holdings(function(res) {
 	    	$scope.holdings = res;
+	    	//$scope.signUp.holding = res[0].id;
         }, function() {
             $rootScope.error = 'Failed to fetch holdings';
         })
@@ -198,11 +258,12 @@ contactControllers.controller('LoginCtrl', ['$rootScope', '$scope', '$location',
 		if(isValid){
 			console.log($scope.signIn);	
 			Main.signin($scope.signIn, function(response) {
-	            $localStorage.token = response.token;
+	            Main.setToken(response.token);
 	            console.log($localStorage.token)
 	            $location.path('/user-list');
-	        }, function() {
-	            $rootScope.error = 'Failed to signin';
+	        }, function(response) {
+	        	console.log(response);
+	            $rootScope.error = response.message;
 	        })
 		}
    	}

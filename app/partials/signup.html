@@ -4,8 +4,10 @@
 
         <h1><span class="fa fa-sign-in"></span> Signup</h1>
 
-        <!-- show any messages that come back with authentication -->
-     
+        
+        <div class="alert alert-danger" ng-show="error">
+            {{error}}
+        </div>
 
         <!-- LOGIN FORM -->
         <form name="signUpForm" ng-submit="signUpSubmit(signUpForm.$valid)" novalidate>

@@ -5,8 +5,8 @@ module.exports = function(sequelize, DataTypes) {
   var Profile = sequelize.define("Profile", {
     name: DataTypes.STRING
   }, {
-    classMethods: {
 
+    classMethods: {
       associate: function(models) {
           Profile.hasMany(models.User, { foreignKey: 'profile_id', as: 'profile'});
       }, 

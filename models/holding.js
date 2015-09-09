@@ -8,7 +8,6 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         Holding.hasMany(models.User, { foreignKey: 'holding_id', as: 'holding'});
-        //Holding.hasMany(models.User, { foreignKey: 'holding_id', allowNull : false, foreignKeyConstraint:true});
       },
       addHolding : function(holdingName, callback){
           Holding.create({

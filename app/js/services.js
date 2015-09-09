@@ -30,7 +30,7 @@ angular.module('contactApp')
             var user = {};
             if (typeof token !== 'undefined') {
                 var encoded = token.split('.')[1];
-                //user = JSON.parse(urlBase64Decode(encoded));
+                user = JSON.parse(urlBase64Decode(encoded));
             }
             return user;
         }
@@ -53,8 +53,14 @@ angular.module('contactApp')
             getUserDetails: function(userId, success, error) {
                 $http.get(baseUrl + 'users/get-user/' + userId).success(success).error(error)
             },
+            addUser: function(data, success, error) {
+                $http.post(baseUrl + 'users/add-user', data).success(success).error(error)
+            },
             updateUser: function(data, success, error) {
                 $http.post(baseUrl + 'users/update-user', data).success(success).error(error)
+            },
+            deleteUser: function(userId, success, error) {
+                $http.get(baseUrl + 'users/delete-user/' + userId).success(success).error(error)
             },
             contactList: function(success, error) {
                 $http.get(baseUrl + 'contacts/contactList').success(success).error(error)
@@ -69,6 +75,12 @@ angular.module('contactApp')
                 changeUser({});
                 delete $localStorage.token;
                 success();
+            },
+            getUser : function(){
+                 return currentUser;
+            },
+            setToken : function(token){
+                $localStorage.token = token;
             }
         };
     }
