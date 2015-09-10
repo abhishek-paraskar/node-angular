@@ -62,6 +62,15 @@ contactControllers.controller('NavbarCtrl', ['$rootScope', '$scope', '$location'
 
 contactControllers.controller('ProfileListCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'Main', '$http', function($rootScope, $scope, $location, $localStorage, Main, $http){	
 	$rootScope.selectedMenu = 'Profiles';
+	var getProfileList = function(){
+		Main.getProfileList(function(response) {
+			$scope.profileList = response.data;
+        }, function() {
+            $rootScope.error = 'Failed to signin';
+        })
+	}
+	getProfileList();
+
 }]);
 
 contactControllers.controller('AddProfileCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'Main', '$http', function($rootScope, $scope, $location, $localStorage, Main, $http){	
@@ -74,6 +83,15 @@ contactControllers.controller('EditProfileCtrl', ['$rootScope', '$scope', '$loca
 
 contactControllers.controller('HoldingListCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'Main', '$http', function($rootScope, $scope, $location, $localStorage, Main, $http){	
 	$rootScope.selectedMenu = 'Holdings';
+	var getHoldingList = function(){
+		Main.getHoldingList(function(response) {
+			$scope.holdingList = response.data;
+        }, function() {
+            $rootScope.error = 'Failed to signin';
+        })
+	}
+	getHoldingList();
+
 }]);
 
 contactControllers.controller('AddHoldingCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'Main', '$http', function($rootScope, $scope, $location, $localStorage, Main, $http){	

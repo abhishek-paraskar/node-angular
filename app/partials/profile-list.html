@@ -11,9 +11,10 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="profile in profileList">
-				<td>>{{profile.id}}</td>
+				<td>{{profile.id}}</td>
 				<td>{{profile.name}}</td>
-				<td><button class="btn btn-danger" ng-bootbox-confirm="Are you sure you want to delete this profile ?" ng-bootbox-confirm-action="deleteUser(user.id)" ng-bootbox-confirm-action-cancel="" >Delete</button></td>
+				<td><button class="btn btn-danger" ng-bootbox-confirm="Are you sure you want to delete this profile ?" ng-bootbox-confirm-action="deleteProfile(profile.id)" ng-bootbox-confirm-action-cancel="" >Delete</button></td>
+				<td><button class="btn btn-warning" ng-click="editProfile(profile.id);">Edit</button></td>
 			</tr>
 		</tbody>
 	</table>

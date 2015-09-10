@@ -1,0 +1,21 @@
+<div class="jumbotron">
+	<h1>Holding list</h1>
+	<table class="table" style="margin-top:50px;">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>Action</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="holding in holdingList">
+				<td>{{holding.id}}</td>
+				<td>{{holding.name}}</td>
+				<td><button class="btn btn-danger" ng-bootbox-confirm="Are you sure you want to delete this holding ?" ng-bootbox-confirm-action="deleteHolding(holding.id)" ng-bootbox-confirm-action-cancel="" >Delete</button></td>
+				<td><button class="btn btn-warning" ng-click="editHolding(holding.id);">Edit</button></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
