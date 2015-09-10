@@ -15,7 +15,7 @@ module.exports = function(sequelize, DataTypes) {
           }).then(function(holding) {
               callback({success: true});
           }).catch(function(error){
-              callback({success : false, message : error});
+              callback({success : false, message : 'Unable to add the holding.', error: error});
           });
       },
 
@@ -29,7 +29,7 @@ module.exports = function(sequelize, DataTypes) {
           }).then(function(holding) {
             callback({success: true});
           }).catch(function(error){
-            callback({success : false, message : error});
+            callback({success : false, message : 'Unable to update the holding.', error: error});
           });
       },
 
@@ -45,7 +45,7 @@ module.exports = function(sequelize, DataTypes) {
               callback({status : false, message : 'Holding not found'});
             }
           }).catch(function(error){
-            callback({success : false, message : error});
+            callback({success : false, message : 'Holding not found.', error: error});
           });
       },
 
@@ -57,7 +57,7 @@ module.exports = function(sequelize, DataTypes) {
         }).then(function() {
             callback({status : true});
         }).catch(function(error){
-            callback({success : false, message : error});
+            callback({success : false, message : 'Unable to delete the holding.', error: error});
         }); 
       },
 
@@ -65,7 +65,7 @@ module.exports = function(sequelize, DataTypes) {
         Holding.findAll().then(function(holdingList) {
             callback({success: true, data: holdingList});
         }).catch(function(error){
-            callback({success : false, message : error});
+            callback({success : false, message : 'Unable to fetch the holding list.', error: error});
         });
       }
     }

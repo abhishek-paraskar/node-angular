@@ -77,10 +77,14 @@ angular.module('contactApp')
                 success();
             },
             getUser : function(){
-                 return currentUser;
+                 return getUserFromToken();
             },
             setToken : function(token){
+                delete $localStorage.token;
                 $localStorage.token = token;
+            },
+            deleteToken : function(){
+                delete $localStorage.token;
             }
         };
     }

@@ -17,7 +17,7 @@ module.exports = function(sequelize, DataTypes) {
           }).then(function(profile) {
               callback({success: true});
           }).catch(function(error){
-              callback({success : false, message : error});
+              callback({success : false, message : 'Unable to add the profile.', error: error});
           });
       },
 
@@ -31,7 +31,7 @@ module.exports = function(sequelize, DataTypes) {
           }).then(function(holding) {
             callback({success: true});
           }).catch(function(error){
-            callback({success : false, message : error});
+            callback({success : false, message : 'Unable to update the profile.', error: error});
           });
       },
 
@@ -44,10 +44,10 @@ module.exports = function(sequelize, DataTypes) {
             if(profile){
               callback({status : true, data : profile});
             } else {
-              callback({status : false, message : 'Profile not found'});
+              callback({status : false, message : 'Profile not found.'});
             }
           }).catch(function(error){
-            callback({success : false, message : error});
+            callback({success : false, message : 'Profile not found.', error: error});
           });
       },
 
@@ -59,7 +59,7 @@ module.exports = function(sequelize, DataTypes) {
         }).then(function() {
             callback({status : true});
         }).catch(function(error){
-            callback({success : false, message : error});
+            callback({success : false, message : 'Unable to delete the profile.', error: error});
         });
       },
 
@@ -67,7 +67,7 @@ module.exports = function(sequelize, DataTypes) {
         Profile.findAll().then(function(profileList) {
             callback({success: true, data: profileList});
         }).catch(function(error){
-            callback({success : false, message : error});
+            callback({success : false, message : 'Unable to fetch the profile.', error: error});
         });
       }
     }

@@ -1,4 +1,4 @@
-<div class="container" ng-controller="LoginCtrl">
+<div class="jumbotron">
 
     <div class="col-sm-6 col-sm-offset-3">
 
@@ -8,7 +8,7 @@
             {{error}}
         </div>
         <!-- LOGIN FORM -->
-        <form name="signInForm" ng-submit="submitSignInForm(signInForm.$valid)" novalidate>
+        <form name="signInForm" ng-submit="submitSignInForm(signInForm.$valid)">
             <div class="form-group" ng-class="{ 'has-error' : signInForm.email.$invalid && !signInForm.email.$pristine }">
                 <label>Email</label>
                 <input type="email" class="form-control" ng-model="signIn.email" name="email" required>
@@ -20,9 +20,8 @@
                 <p ng-show="signInForm.password.$error.minlength" class="help-block">Password should not be less than 6 characters.</p>
                 <p ng-show="signInForm.password.$error.maxlength" class="help-block">Password should not be longer than 12 characters.</p>
             </div>
-            <button type="submit" class="btn btn-warning btn-lg">Login</button>
+            <button type="submit" class="btn btn-warning btn-lg" ng-click="submitted=true">Login</button>
         </form>
-
         <hr>
 
         <p>Need an account? <a href="#/signup">Signup</a></p>

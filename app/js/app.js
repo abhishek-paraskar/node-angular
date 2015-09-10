@@ -13,39 +13,81 @@ contactApp.config(['$routeProvider', '$locationProvider', '$httpProvider', funct
     $routeProvider.
       when('/contact-list', {
         templateUrl: 'partials/contact-list.html',
-        controller: 'ContactListCtrl'
+        controller: 'ContactListCtrl',
+        secure: true
       }).
       when('/contact-details/:contactId', {
         templateUrl: 'partials/contact-details.html',
-        controller: 'ContactDetailsCtrl'
-      }).
-      when('/home', {
-        templateUrl: 'partials/home.html',
-        controller: 'HomeCtrl'
-      }).
-      when('/login', {
-        templateUrl: 'partials/login.html',
-        controller: 'LoginCtrl'
-      }).
-      when('/signup', {
-        templateUrl: 'partials/signup.html',
-        controller: 'SignUpCtrl'
+        controller: 'ContactDetailsCtrl',
+        secure: true
       }).
       when('/user-list', {
         templateUrl: 'partials/user-list.html',
-        controller: 'UserListCtrl'
+        controller: 'UserListCtrl',
+        secure: true
       }).
       when('/edit-user/:userId', {
         templateUrl: 'partials/edit-user.html',
-        controller: 'EditUserCtrl'
+        controller: 'EditUserCtrl',
+        secure: true
       }).
       when('/add-user', {
         templateUrl: 'partials/add-user.html',
-        controller: 'AddUserCtrl'
+        controller: 'AddUserCtrl',
+        secure: true
+      
+      }).
+       when('/profile-list', {
+        templateUrl: 'partials/profile-list.html',
+        controller: 'ProfileListCtrl',
+        secure: true
+      }).
+      when('/edit-profile/:profileId', {
+        templateUrl: 'partials/edit-profile.html',
+        controller: 'EditProfileCtrl',
+        secure: true
+      }).
+      when('/add-profile', {
+        templateUrl: 'partials/add-profile.html',
+        controller: 'AddProfileCtrl',
+        secure: true
+      
+      }).
+       when('/holding-list', {
+        templateUrl: 'partials/holding-list.html',
+        controller: 'HoldingListCtrl',
+        secure: true
+      }).
+      when('/edit-holding/:userId', {
+        templateUrl: 'partials/edit-holding.html',
+        controller: 'EditHoldingCtrl',
+        secure: true
+      }).
+      when('/add-holding', {
+        templateUrl: 'partials/add-holding.html',
+        controller: 'EditProfileCtrl',
+        secure: true
+      
+      }).
+       when('/home', {
+        templateUrl: 'partials/home.html',
+        controller: 'HomeCtrl',
+        secure: false
+      }).
+      when('/login', {
+        templateUrl: 'partials/login.html',
+        controller: 'LoginCtrl',
+        secure: false
+      }).
+      when('/signup', {
+        templateUrl: 'partials/signup.html',
+        controller: 'SignUpCtrl',
+        secure: false
       }).
       when('/', {
         templateUrl: 'partials/home.html',
-        controller: 'HomeCtrl'
+        controller: 'HomeCtrl',
+        secure: false
       }).
       otherwise({
         redirectTo: '/'
@@ -77,4 +119,21 @@ contactApp.config(['$routeProvider', '$locationProvider', '$httpProvider', funct
 
 
   }]);
+
+contactApp.run(['$rootScope', '$location', '$localStorage', 'Main', 
+  function ($rootScope, $location, $localStorage, Main) {
+   
+    $rootScope.$on('$routeChangeStart', function (event, next, current) {
+      if (next && next.$$route && next.$$route.secure) { 
+        if (typeof $localStorage.token == "undefined") { 
+            $rootScope.$evalAsync(function () { 
+                $location.path('/login'); 
+            }); 
+        } 
+          
+      } 
+        
+    });
+
+}]);
 

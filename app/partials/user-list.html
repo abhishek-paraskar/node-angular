@@ -1,4 +1,4 @@
-<div class="container" ng-controller="UserListCtrl">
+<div class="jumbotron">
 	<h1>User list</h1>
 	Search: <input class="" ng-model="query">
     Sort by:
@@ -9,7 +9,6 @@
       <option value="profile">Profile</option>
       <option value="holding">Holding</option>
     </select>
-    <a href="#" ng-click="logout()">Logout</a>
     <button class="btn btn-primary pull-right" ng-click="addUser()">Add User</button>
 	<table class="table" style="margin-top:50px;">
 		<thead>
@@ -27,10 +26,13 @@
 				<td><a href="#/edit-user/{{user.id}}">{{user.name}}</a></td>
 				<td>{{user.last_name}}</td>
 				<td>{{user.email}}</td>
-				<td>{{user.profile.name}}</td>
-				<td>{{user.holding.name}}</td>
-
-				<td><button class="btn btn-danger" ng-bootbox-confirm="Are you sure you want to delete this user?" ng-bootbox-confirm-action="deleteUser(user.id)" ng-bootbox-confirm-action-cancel="" >Delete</button></td>
+				<td>{{user["profile.name"]}}</td>
+				<td>{{user["holding.name"]}}</td>
+				<td>
+					<div ng-if="user.id != loggedInUserId">
+    					<button class="btn btn-danger" ng-bootbox-confirm="Are you sure you want to delete this user?" ng-bootbox-confirm-action="deleteUser(user.id)" ng-bootbox-confirm-action-cancel="" >Delete</button>
+					</div>
+				</td>
 			</tr>
 		</tbody>
 	</table>

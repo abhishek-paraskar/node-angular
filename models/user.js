@@ -35,31 +35,47 @@ module.exports = function(sequelize, DataTypes) {
             User.belongsTo(models.Profile, { foreignKey: 'profile_id', as: 'profile' });
             User.belongsTo(models.Holding, { foreignKey: 'holding_id', as: 'holding' });
           },
-      		validateUser : function(emailField, passwordField, callback){
-      			User.findOne({
-                  where: { email: emailField }
-                }).success(function(user) {
-      					if (!user) {
-      						callback({ success: false, message: 'Authentication failed. User not found.' });
-      					} else if (user) {
-      			
-      						if (!bcrypt.compareSync(passwordField, user.password)) {
-      							callback({ success: false, message: 'Authentication failed. Wrong password.' });
-      						} else {
-      							// if user is found and password is right create a token
-                    
-      							var token = jwt.sign(user, config.authSecret, {
-      								expiresInMinutes: 3 // expires in 3 mins
-      							});
-      							callback({
-      								success: true,
-      								message: 'User is authenticated',
-      								token: token
-      							});
-      						}
-      					}	
-      			 });
-      		},
+      	validateUser : function(emailField, passwordField, callback){
+            User.findAll({
+                  where: { email: emailField },
+                  raw : true
+            }).then(function(userList) {
+               if (!userList) {
+                  callback({ success: false, message: 'Authentication failed. User not found.' });
+                } else {
+                  var useAuthenticated = false;
+                  var authenticatedUser = {};
+                  userList.forEach(function(user){
+                    if (bcrypt.compareSync(passwordField, user.password)) {
+                      useAuthenticated = true;
+                      authenticatedUser = user;
+                      return authenticatedUser;
+                    } 
+                  });
+                  if(useAuthenticated){
+                    var payload = {
+                      email: authenticatedUser.email,
+                      name: authenticatedUser.name,
+                      last_name: authenticatedUser.last_name,
+                      id: authenticatedUser.id
+                    }
+                    var token = jwt.sign(payload, config.authSecret, {
+                      expiresInMinutes: 10 // expires in 3 mins
+                    });
+                    callback({
+                      success: true,
+                      message: 'User is authenticated',
+                      token: token
+                    });
+                  }else{
+                    callback({ success: false, message: 'Authentication failed. Wrong password.' });
+                  }
+                }  
+            }).catch(function(error){
+              callback({ success: false, message: 'Authentication failed. Returning from catch block' });    
+            });
+          },
+
 
       		addUser : function(emailField, passwordField, nameField, lastNameField, profileIdField, holderIdField, callback){
       			User.create({
@@ -70,15 +86,13 @@ module.exports = function(sequelize, DataTypes) {
               profile_id: profileIdField,
               holding_id: holderIdField
             }).then(function(user) {
-                callback({
-                      success: true
-                  });
+                callback({ success: true});
             }).catch(function(error){
-              callback({success : false, message : error});
+              callback({success : false, message : 'Unable to add user.', error: error});
             });
       		},
 
-          updateUser : function(userId, emailField, nameField, lastNameField, profileIdField, holderIdField, callback){
+          updateUser : function(userId, emailField, nameField, lastNameField, profileIdField, holderIdField, updateToken, callback){
             User.update({
               email: emailField,
               name: nameField,
@@ -89,10 +103,23 @@ module.exports = function(sequelize, DataTypes) {
               where : {
                 id: userId
               }
-            }).then(function(user) {
-              callback({success: true});
+            }).then(function(updatedResults) {
+              if(updateToken){
+                var payload = {
+                  email: emailField,
+                  name: nameField,
+                  last_name: lastNameField,
+                  id: userId
+                }
+                var token = jwt.sign(payload, config.authSecret, {
+                  expiresInMinutes: 10 // expires in 3 mins
+                });
+                callback({success: true, data: updatedResults, token: token});
+              }else{
+                callback({success: true, data: updatedResults});
+              }
             }).catch(function(error){
-              callback({success : false, message : error});
+              callback({success : false, message : 'Unable to update the user.', error: error});
             });
           },
 
@@ -101,15 +128,16 @@ module.exports = function(sequelize, DataTypes) {
               where: {
                 id: userId
               },
+              raw: true, 
               attributes : ['id', 'email', 'name', 'last_name', 'profile_id', 'holding_id']
               
             }).then(function(user) {
-              if(user)
+              if(user){
                 callback({status : true, data : user});
-              else
-                callback({status : false, message : 'User not found'});
+              }else
+                callback({success : false, message : 'User not found.'});
             }).catch(function(error){
-              callback({success : false, message : error});
+              callback({success : false, message : 'User not found.', error: error});
             });
           },
 
@@ -121,12 +149,13 @@ module.exports = function(sequelize, DataTypes) {
             }).then(function() {
               callback({status : true});
             }).catch(function(error){
-              callback({success : false, message : error});
+              callback({success : false, message : 'Unable to delete the user.', error: error});
             });
           },
 
           getAllUsers : function(models, callback){
-            User.findAll({raw: true, 
+            User.findAll({
+              raw: true, 
               attributes : ['id', 'email', 'name', 'last_name', 'profile_id', 'holding_id'], 
               include: [{
                 model: models.Profile, 
@@ -140,13 +169,10 @@ module.exports = function(sequelize, DataTypes) {
             }).then(function(userList) {
               callback(userList);
             }).catch(function(error){
-              callback({success : false, message : error});
+              callback({success : false, message : 'Unable to fetch the user list.', error: error});
             });
           }
     	}
   	});
-
-    
-
     return User;
 };

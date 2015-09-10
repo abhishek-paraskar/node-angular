@@ -70,8 +70,6 @@ app.use(function(req, res, next) {
   
 });
 
-
-
 // routes ======================================================================
 var users = require('./routes/users');
 var profile = require('./routes/profile');

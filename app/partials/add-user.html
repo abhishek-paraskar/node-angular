@@ -1,13 +1,11 @@
-<div class="container" ng-controller="AddUserCtrl">
-
+<div class="jumbotron">
     <div class="col-sm-6 col-sm-offset-3">
-
         <h1><span class="fa fa-sign-in"></span> Add User</h1>
-        <!-- show any messages that come back with authentication -->
-     
-
-        <!-- Edit user FORM -->
-        <form name="addUserForm" ng-submit="addUserSubmit(addUserForm.$valid)" novalidate>
+            <div class="alert alert-danger" ng-show="error">
+                {{error}}
+            </div>
+        <!-- Add user FORM -->
+        <form name="addUserForm" ng-submit="addUserSubmit(addUserForm.$valid)">
             <div class="form-group" ng-class="{ 'has-error' : addUserForm.email.$invalid && !addUserForm.email.$pristine }">
                 <label>Email</label>
                 <input type="email" class="form-control" ng-model="addUser.email" name="email" required>
@@ -31,18 +29,20 @@
             </div>
             <div class="form-group"  ng-class="{ 'has-error' : addUserForm.profile_id.$invalid && !addUserForm.profile_id.$pristine }">
                 <label>Profile</label>
-                 <select class="form-control" ng-model="addUser.profile_id" ng-options="profile1.id as profile1.name for profile1 in profiles" name="profile_id" required></select>
+                 <select class="form-control" ng-model="addUser.profile_id" ng-options="profile1.id as profile1.name for profile1 in profiles" name="profile_id" required>
+                    <option value="">-- Select Profile --</option>
+                 </select>
                 <p ng-show="addUserForm.profile_id.$invalid && !addUserForm.profile_id.$pristine" class="help-block">You profile is required.</p>
             </div>
              <div class="form-group"  ng-class="{ 'has-error' : addUserForm.holding_id.$invalid && !addUserForm.holding_id.$pristine }">
                 <label>Holding</label>
-                <select class="form-control" ng-model="addUser.holding_id" ng-options="holding1.id as holding1.name for holding1 in holdings" name="holding_id" required></select>
+                <select class="form-control" ng-model="addUser.holding_id" ng-options="holding1.id as holding1.name for holding1 in holdings" name="holding_id" required>
+                    <option value="">-- Select Holding --</option>
+                </select>
                 <p ng-show="addUserForm.holding_id.$invalid && !addUserForm.holding_id.$pristine" class="help-block">You holding name is required.</p>
             </div>
-            <button type="submit" class="btn btn-warning btn-lg">Add</button>
-            <button type="submit" class="btn btn-lg">Cancel</button>
+            <button type="submit" class="btn btn-warning btn-lg" ng-click="submitted=true">Add</button>
+            <a class="btn" ng-click="cancelAddUser()">Cancel</a>
         </form>
-
     </div>
-
 </div>

@@ -1,10 +1,10 @@
-<div class="container" ng-controller="EditUserCtrl">
+<div class="jumbotron">
 
     <div class="col-sm-6 col-sm-offset-3">
 
         <h1><span class="fa fa-sign-in"></span> Edit User</h1>
         <!-- show any messages that come back with authentication -->
-     
+        
 
         <!-- Edit user FORM -->
         <form name="editUserForm" ng-submit="editUserSubmit(editUserForm.$valid)" novalidate>
@@ -25,18 +25,20 @@
             </div>
             <div class="form-group"  ng-class="{ 'has-error' : editUserForm.profile_id.$invalid && !editUserForm.profile_id.$pristine }">
                 <label>Profile</label>
-                 <select class="form-control" ng-model="editUser.profile_id" ng-options="profile1.id as profile1.name for profile1 in profiles" name="profile_id" required></select>
+                 <select class="form-control" ng-model="editUser.profile_id" ng-options="profile1.id as profile1.name for profile1 in profiles" name="profile_id" required>
+                    <option value="">-- Select Profile --</option>
+                </select>
                 <p ng-show="editUserForm.profile_id.$invalid && !editUserForm.profile_id.$pristine" class="help-block">You profile is required.</p>
             </div>
              <div class="form-group"  ng-class="{ 'has-error' : editUserForm.holding_id.$invalid && !editUserForm.holding_id.$pristine }">
                 <label>Holding</label>
-                <select class="form-control" ng-model="editUser.holding_id" ng-options="holding1.id as holding1.name for holding1 in holdings" name="holding_id" required></select>
+                <select class="form-control" ng-model="editUser.holding_id" ng-options="holding1.id as holding1.name for holding1 in holdings" name="holding_id" required>
+                    <option value="">-- Select Holding --</option>
+                </select>
                 <p ng-show="editUserForm.holding_id.$invalid && !editUserForm.holding_id.$pristine" class="help-block">You holding name is required.</p>
             </div>
             <button type="submit" class="btn btn-warning btn-lg">Update</button>
-            <button type="submit" class="btn btn-lg">Cancel</button>
+            <a class="btn" ng-click="cancelEditUser()">Cancel</a>
         </form>
-
     </div>
-
 </div>

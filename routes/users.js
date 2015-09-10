@@ -6,10 +6,12 @@ var models = require("../models");
 /* Get user list from database database. */
 router.get('/user-list', function(req, res, next) {
 	models.User.getAllUsers(models, function(response){
-		if(typeof response.success != "undefined" && !response.success)
-			res.status(403).send(response);
-		else
+		
+		if(typeof response.success != "undefined" && !response.success){
+			res.status(500).send(response);
+		}else{
 			res.json(response);
+		}
 	});
 	
 
@@ -19,10 +21,10 @@ router.get('/user-list', function(req, res, next) {
 /* Add contact to database. */
 router.post('/add-user', function(req, res, next) {
 	models.User.addUser(req.body.email, req.body.password, req.body.name, req.body.last_name, req.body.profile_id, req.body.holding_id, function(response){
-		if(response.success)
-			res.json(response);
+		if(typeof response.success != "undefined" && !response.success)
+			res.status(500).send(response);
 		else
-			res.status(403).send(response);
+			res.json(response);
 	});
 });
 
@@ -30,7 +32,7 @@ router.post('/add-user', function(req, res, next) {
 router.get('/delete-user/:user_id', function(req, res, next) {
 	models.User.deleteUser(req.params.user_id, function(response){
 		if(typeof response.success != "undefined" && !response.success)
-			res.status(403).send(response);
+			res.status(500).send(response);
 		else
 			res.json(response);
 	});
@@ -40,7 +42,7 @@ router.get('/delete-user/:user_id', function(req, res, next) {
 router.get('/get-user/:user_id', function(req, res, next) {
 	models.User.getUserById(req.params.user_id, function(response){
 		if(typeof response.success != "undefined" && !response.success)
-			res.status(403).send(response);
+			res.status(500).send(response);
 		else
 			res.json(response);
 	});
@@ -48,12 +50,11 @@ router.get('/get-user/:user_id', function(req, res, next) {
 
 /* Update the user by id in db. */
 router.post('/update-user', function(req, res, next) {
-	models.User.updateUser(req.body.id, req.body.email, req.body.name, req.body.last_name, req.body.profile_id, req.body.holding_id, function(response){
-		if(response.success)
-			res.json(response);
+	models.User.updateUser(req.body.id, req.body.email, req.body.name, req.body.last_name, req.body.profile_id, req.body.holding_id, req.body.updateToken, function(response){
+		if(typeof response.success != "undefined" && !response.success)
+			res.status(500).send(response);
 		else
-			res.status(403).send(response);
+			res.json(response);
 	});
-
 });
 module.exports = router;

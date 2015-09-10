@@ -1,20 +1,17 @@
-<div class="container" ng-controller="SignUpCtrl">
+<div class="jumbotron">
 
     <div class="col-sm-6 col-sm-offset-3">
 
         <h1><span class="fa fa-sign-in"></span> Signup</h1>
-
-        
         <div class="alert alert-danger" ng-show="error">
             {{error}}
         </div>
-
         <!-- LOGIN FORM -->
-        <form name="signUpForm" ng-submit="signUpSubmit(signUpForm.$valid)" novalidate>
-            <div class="form-group" ng-class="{ 'has-error' : signUpForm.email.$invalid && !signUpForm.email.$pristine }">
+        <form name="signUpForm" ng-submit="signUpSubmit(signUpForm.$valid)" >
+            <div class="form-group" ng-class="{ 'has-error' : submitted && signUpForm.email.$invalid && !signUpForm.email.$pristine }">
                 <label>Email</label>
                 <input type="email" class="form-control" ng-model="signUp.email" name="email" required>
-                <p ng-show="signUpForm.email.$invalid && !signUpForm.email.$pristine" class="help-block">Enter valid email address.</p>
+                <p ng-show="submitted && signUpForm.email.$invalid && !signUpForm.email.$pristine" class="help-block">Enter valid email address.</p>
             </div>
             <div class="form-group"  ng-class="{ 'has-error' : signUpForm.password.$invalid && !signUpForm.password.$pristine }">
                 <label>Password</label>
@@ -34,16 +31,21 @@
             </div>
             <div class="form-group"  ng-class="{ 'has-error' : signUpForm.profile.$invalid && !signUpForm.profile.$pristine }">
                 <label>Profile</label>
-                 <select class="form-control" ng-model="signUp.profile" ng-options="profile1.id as profile1.name for profile1 in profiles" name="profile" required></select>
+                 <select class="form-control" ng-model="signUp.profile" ng-options="profile1.id as profile1.name for profile1 in profiles" name="profile" required>
+                    <option value="">-- Select Profile --</option>
+                 </select>
                 <p ng-show="signUpForm.profile.$invalid && !signUpForm.profile.$pristine" class="help-block">You profile is required.</p>
             </div>
              <div class="form-group"  ng-class="{ 'has-error' : signUpForm.holding.$invalid && !signUpForm.holding.$pristine }">
                 <label>Holding</label>
-                <select class="form-control" ng-model="signUp.holding" ng-options="holding1.id as holding1.name for holding1 in holdings" name="holding" required></select>
+                <select class="form-control" ng-model="signUp.holding" ng-options="holding1.id as holding1.name for holding1 in holdings" name="holding" required>
+                    <option value="">-- Select Holding --</option>
+                </select>
                 <p ng-show="signUpForm.holding.$invalid && !signUpForm.holding.$pristine" class="help-block">You holding name is required.</p>
             </div>
-            <button type="submit" class="btn btn-warning btn-lg">Signup</button>
+            <button type="submit" class="btn btn-warning btn-lg" ng-click="submitted=true">Signup</button>
         </form>
+
 
         <hr>
 
