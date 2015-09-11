@@ -60,7 +60,7 @@ module.exports = function(sequelize, DataTypes) {
                       id: authenticatedUser.id
                     }
                     var token = jwt.sign(payload, config.authSecret, {
-                      expiresInMinutes: 10 // expires in 3 mins
+                      expiresInMinutes: 1 // expires in 3 mins
                     });
                     callback({
                       success: true,

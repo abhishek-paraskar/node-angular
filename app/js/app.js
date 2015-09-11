@@ -133,9 +133,11 @@ contactApp.run(['$rootScope', '$location', '$localStorage', 'Main',
           var exp = Main.getUser().exp;
           if (typeof exp !== 'undefined') {
             if (typeof exp !== 'number') {
+              delete $localStorage.token;
               $location.path('/login'); 
             }
             if (Math.floor(Date.now() / 1000) >= exp){
+              delete $localStorage.token;
               $location.path('/login');  
             }
           }

@@ -1,0 +1,21 @@
+<div>
+	<div ng-switch on="isLoggedIn">
+   		<div ng-switch-when="true">
+   			<nav class="navbar navbar-default" ng-show="{{isLoggedIn}}">
+	        	<div class="container-fluid">
+	          		<div class="navbar-header">
+	            		<a href="#/user-list" class="navbar-brand">Node + Angular</a>
+	          		</div>
+	          		<div class="navbar-collapse collapse" id="navbar">
+	            	<ul class="nav navbar-nav">
+	              		<li ng-class="{'active' : selectedMenu == menu.title}" ng-repeat="menu in leftMenuItems"><a href="{{menu.path}}">{{menu.title}}</a></li>
+	           		</ul>
+	            	<ul class="nav navbar-nav navbar-right">
+	            		<li class=""><a href="">{{userName}}</a></li>
+	            		<li class=""><a href="" ng-click="logout()">Logout</a></li>
+	            	</ul>
+	          	</div><!--/.nav-collapse -->
+	        </div><!--/.container-fluid -->
+	    </nav>
+   	</div>
+</div>
