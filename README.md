@@ -16,7 +16,7 @@ It also implements the token based authentication and authorization mechanism.
 Node JS
 MySql
 
-## How to use angular-express-seed
+## How to use Node-Angular
 
 Clone the node-angular repository, run `npm install` to grab the dependencies, and start hacking!
 Go to the project directory
