@@ -10,10 +10,6 @@ var models = require("./models");
 
 var app = express();
 
-
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -24,15 +20,15 @@ app.use('/home', home);
 
 
 app.use(function(req, res, next) {
-  // check header or url parameters or post parameters for token
+  
+  // check header parameters for token
   
   var token = req.headers["authorization"];
-  console.log("Checking Autherization");  
+  
   // decode token
   if (token) {
     var bearer = token.split(" ");
     var bearerToken = bearer[1];
-   
     // verifies secret and checks exp
     jwt.verify(bearerToken, config.authSecret, function(err, decoded) {     
       if (err) {
@@ -46,31 +42,24 @@ app.use(function(req, res, next) {
         next();
       }
     });
-    
-    //next();
   } else {
-
-    // if there is no token
-    // return an error
+    // if there is no token return an error
     return res.status(403).send({ 
       success: false, 
       message: 'No token provided.'
     });
-    
   }
-  
 });
 
 // routes ======================================================================
 var users = require('./routes/users');
 var profile = require('./routes/profile');
 var holding = require('./routes/holding');
-var contacts = require('./routes/contacts');
 
 app.use('/users', users);
 app.use('/profile', profile);
 app.use('/holding', holding);
-app.use('/contacts', contacts);
+
 
 
 app.use(function(err, req, res, next){

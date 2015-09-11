@@ -1,26 +1,16 @@
 'use strict';
 
 /* App Module */
-var contactApp = angular.module('contactApp', [
+var userApp = angular.module('userApp', [
   'ngRoute',
   'ngStorage',
   'ngBootbox',
-  'contactControllers'
+  'userControllers'
 ]);
 
-contactApp.config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
+userApp.config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
     
     $routeProvider.
-      when('/contact-list', {
-        templateUrl: 'partials/contact-list.html',
-        controller: 'ContactListCtrl',
-        secure: true
-      }).
-      when('/contact-details/:contactId', {
-        templateUrl: 'partials/contact-details.html',
-        controller: 'ContactDetailsCtrl',
-        secure: true
-      }).
       when('/user-list', {
         templateUrl: 'partials/user-list.html',
         controller: 'UserListCtrl',
@@ -118,18 +108,24 @@ contactApp.config(['$routeProvider', '$locationProvider', '$httpProvider', funct
       }]);
 
 
+
+
   }]);
 
-contactApp.run(['$rootScope', '$location', '$localStorage', 'Main', 
+userApp.run(['$rootScope', '$location', '$localStorage', 'Main', 
   function ($rootScope, $location, $localStorage, Main) {
    
     $rootScope.$on('$routeChangeStart', function (event, next, current) {
+
+
       if (next && next.$$route && next.$$route.secure) { 
+        //Validating the token and token validity at client side.
         if (typeof $localStorage.token == "undefined") { 
             $rootScope.$evalAsync(function () { 
                 $location.path('/login'); 
             }); 
         } else{
+          //Validating token validity
           var exp = Main.getUser().exp;
           if (typeof exp !== 'undefined') {
             if (typeof exp !== 'number') {

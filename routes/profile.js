@@ -3,7 +3,7 @@ var bodyParser = require('body-parser')
 var router = express.Router();
 var models = require("../models");
 
-/* Get user list from database database. */
+/* Get profile list from database database. */
 router.get('/profile-list', function(req, res, next) {
 	models.Profile.getAllProfiles(function(response){
 		if(typeof response.success != "undefined" && !response.success)
@@ -13,7 +13,7 @@ router.get('/profile-list', function(req, res, next) {
 	});
 });
 
-/* Add contact to database. */
+/* Add profile to database. */
 router.post('/add-profile', function(req, res, next) {
 	models.Profile.addProfile(req.body.name, function(response){
 		if(typeof response.success != "undefined" && !response.success)
@@ -23,7 +23,7 @@ router.post('/add-profile', function(req, res, next) {
 	});
 });
 
-/* Delete user from the db. */
+/* Delete profile from the db. */
 router.get('/delete-profile/:profile_id', function(req, res, next) {
 
 	models.Profile.deleteProfile(req.params.profile_id, function(response){
@@ -34,7 +34,7 @@ router.get('/delete-profile/:profile_id', function(req, res, next) {
 	});
 });
 
-/* Get the user by id from db. */
+/* Get the profile by id from db. */
 router.get('/edit-profile/:profile_id', function(req, res, next) {
 	models.Profile.getProfileById(req.params.profile_id, function(response){
 		if(typeof response.success != "undefined" && !response.success)
@@ -44,7 +44,7 @@ router.get('/edit-profile/:profile_id', function(req, res, next) {
 	});
 });
 
-/* Update the user by id in db. */
+/* Update the profile by id in db. */
 router.post('/update-profile', function(req, res, next) {
 	models.Profile.updateProfile(req.body.id, req.body.name, function(response){
 		if(typeof response.success != "undefined" && !response.success)

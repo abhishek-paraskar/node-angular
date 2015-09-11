@@ -8,7 +8,6 @@ var config    = require('../config/config.json')[env];
 // ---------------------------------------------------------
 // authentication (no middleware necessary since this isnt authenticated)
 // ---------------------------------------------------------
-// http://localhost:8080/api/authenticate
 router.post('/authenticate', function(req, res) {
 	console.log("---- ");
 	
@@ -21,7 +20,10 @@ router.post('/authenticate', function(req, res) {
 	//res.status(403).send({status: false});
 });
 
-/* Add new user to database. */
+
+// ---------------------------------------------------------
+// Add new user to database
+// ---------------------------------------------------------
 router.post('/sign-up', function(req, res, next) {
 	models.User.addUser(req.body.email, req.body.password, req.body.first_name, req.body.last_name, req.body.profile, req.body.holding, function(response){
 		if(typeof response.success != "undefined" && !response.success)
@@ -31,7 +33,10 @@ router.post('/sign-up', function(req, res, next) {
 	})
 });
 
-/* Add new user to database. */
+
+// ---------------------------------------------------------
+//  get the profiles from database.
+// ---------------------------------------------------------
 router.get('/profiles', function(req, res, next) {
 	models.Profile.getAllProfiles(function(response){
 		if(typeof response.success != "undefined" && !response.success)
@@ -42,7 +47,10 @@ router.get('/profiles', function(req, res, next) {
 	
 });
 
-/* Add new user to database. */
+
+// ---------------------------------------------------------
+//  get the holdings from database.
+// ---------------------------------------------------------
 router.get('/holdings', function(req, res, next) {
 	models.Holding.getAllHolding(function(response){
 		if(typeof response.success != "undefined" && !response.success)

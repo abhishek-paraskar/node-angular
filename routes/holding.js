@@ -3,7 +3,7 @@ var bodyParser = require('body-parser')
 var router = express.Router();
 var models = require("../models");
 
-/* Get user list from database database. */
+/* Get holding list from database. */
 router.get('/holding-list', function(req, res, next) {
 	models.Holding.getAllHolding(function(response){
 		if(typeof response.success != "undefined" && !response.success)
@@ -13,7 +13,7 @@ router.get('/holding-list', function(req, res, next) {
 	});
 });
 
-/* Add contact to database. */
+/* Add holding to database. */
 router.post('/add-holding', function(req, res, next) {
 	models.Holding.addHolding(req.body.name, function(response){
 		if(typeof response.success != "undefined" && !response.success)
@@ -23,7 +23,7 @@ router.post('/add-holding', function(req, res, next) {
 	});
 });
 
-/* Delete user from the db. */
+/* Delete holding from the db. */
 router.get('/delete-holding/:holding_id', function(req, res, next) {
 
 	models.Holding.deleteHolding(req.params.holding_id, function(response){
