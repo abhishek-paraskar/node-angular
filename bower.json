@@ -13,5 +13,9 @@
     "angular-route": "1.4.x",
     "ngstorage" : "0.3.9",
     "ngBootbox" : "0.1.1"
+  },
+  "repository": {
+        "type": "git",
+        "url": "https://github.com/abhishek-paraskar/node-angular.git"
   }
 }
