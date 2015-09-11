@@ -110,7 +110,7 @@ contactApp.config(['$routeProvider', '$locationProvider', '$httpProvider', funct
               'responseError': function(response) {
                   if(response.status === 401 || response.status === 403) {
                      delete $localStorage.token;
-                      $location.path('/login');
+                     $location.path('/login');
                   }
                   return $q.reject(response);
               }
@@ -129,10 +129,18 @@ contactApp.run(['$rootScope', '$location', '$localStorage', 'Main',
             $rootScope.$evalAsync(function () { 
                 $location.path('/login'); 
             }); 
-        } 
-          
+        } else{
+          var exp = Main.getUser().exp;
+          if (typeof exp !== 'undefined') {
+            if (typeof exp !== 'number') {
+              $location.path('/login'); 
+            }
+            if (Math.floor(Date.now() / 1000) >= exp){
+              $location.path('/login');  
+            }
+          }
+        }
       } 
-        
     });
 
 }]);
