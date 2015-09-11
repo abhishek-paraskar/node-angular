@@ -25,22 +25,11 @@ Set up the MySql configuarion in /config/config.js file.
 
 Sequelize will automatically create the tables and relationships on the application start up.
 
-You need to add some test profiles and holdings before registration/signup to the app.
-Here is the script to add some test profiles and holdings.
+It also adds some test profiles and holdings on applciation startup if both the tables are empty (check bin/www line no. 38 and 49).
+Need to check better approch for adding the default data on app startup.
 
 
-INSERT INTO `Profiles` (`id`, `name`, `createdAt`, `updatedAt`) VALUES
-(1, 'Profile 1', '2015-09-08 00:00:00', '2015-09-09 00:00:00'),
-(2, 'Profile 2', '2015-09-08 00:00:00', '2015-09-09 00:00:00');
-
-INSERT INTO `Holdings` (`id`, `name`, `createdAt`, `updatedAt`) VALUES
-(1, 'Holdings 1', '2015-09-01 00:00:00', '2015-09-08 00:00:00'),
-(2, 'Holdings 2', '2015-09-01 00:00:00', '2015-09-08 00:00:00');
-
-Later I will add some sequelize code to add the test data on application startup.
-
-
-### Running the app
+## Running the app
      
      'npm start'
 
@@ -78,7 +67,7 @@ Later I will add some sequelize code to add the test data on application startup
 
 
 
-### Running tests
+## Running tests
 
 Coming soon!
 

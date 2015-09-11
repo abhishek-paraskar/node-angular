@@ -31,8 +31,28 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 models.sequelize.sync().then(function () {
-  //var server = app.listen(app.get('port'));
-  //console.log(server);
+
+  /*  
+    Add some test profiles on application startup if the profiles table is empty.
+  */
+  models.Profile.getAllProfiles(function(response){
+    if(typeof response.success != "undefined" && response.success && typeof response.data[0] == 'undefined'){
+       models.Profile.addProfile('Profile 1', function(){
+          console.log('Profile added successfully.')
+        })
+    }
+  })
+  
+  /*  
+    Add some test holdings on application startup if the holding table is empty.
+  */
+  models.Holding.getAllHolding(function(response){
+    if(typeof response.success != "undefined" && response.success && typeof response.data[0] == 'undefined'){
+       models.Holding.addHolding('Holding 1', function(){
+          console.log('Holding added successfully.')
+        })
+    }
+  })
 });
 
 /**
