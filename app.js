@@ -1,15 +1,8 @@
 var express = require('express');
 var path = require('path');
-var passport = require('passport');
-var flash    = require('connect-flash');
-var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var fs = require('fs');
-var util = require('util');
-var url = require('url');
-var session      = require('express-session');
 var jwt        = require("jsonwebtoken");
 var env       = process.env.NODE_ENV || "development";
 var config    = require('./config/config.json')[env];
@@ -47,8 +40,6 @@ app.use(function(req, res, next) {
           success: false, 
           message: 'Token not valid'
         });
-    
-        //return res.json({ success: false, message: 'Failed to authenticate token.' });    
       } else {
         // if everything is good, save to request for use in other routes
         req.decoded = decoded;  
