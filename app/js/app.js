@@ -27,37 +27,15 @@ userApp.config(['$routeProvider', '$locationProvider', '$httpProvider', function
         secure: true
       
       }).
-       when('/profile-list', {
-        templateUrl: 'partials/profile-list.html',
-        controller: 'ProfileListCtrl',
+       when('/profiles', {
+        templateUrl: 'partials/profiles.html',
+        controller: 'ProfileCtrl',
         secure: true
       }).
-      when('/edit-profile/:profileId', {
-        templateUrl: 'partials/edit-profile.html',
-        controller: 'EditProfileCtrl',
+       when('/holdings', {
+        templateUrl: 'partials/holdings.html',
+        controller: 'HoldingCtrl',
         secure: true
-      }).
-      when('/add-profile', {
-        templateUrl: 'partials/add-profile.html',
-        controller: 'AddProfileCtrl',
-        secure: true
-      
-      }).
-       when('/holding-list', {
-        templateUrl: 'partials/holding-list.html',
-        controller: 'HoldingListCtrl',
-        secure: true
-      }).
-      when('/edit-holding/:userId', {
-        templateUrl: 'partials/edit-holding.html',
-        controller: 'EditHoldingCtrl',
-        secure: true
-      }).
-      when('/add-holding', {
-        templateUrl: 'partials/add-holding.html',
-        controller: 'EditProfileCtrl',
-        secure: true
-      
       }).
        when('/home', {
         templateUrl: 'partials/home.html',
@@ -125,7 +103,9 @@ userApp.run(['$rootScope', '$location', '$localStorage', 'Main',
                 $location.path('/login'); 
             }); 
         } else{
-          //Validating token validity
+          //Checking token validity
+          //This approch will not work if the timezone of client and server is different.
+          //As its validating the token expiration field which is created on server against the client datetime. 
           var exp = Main.getUser().exp;
           if (typeof exp !== 'undefined') {
             if (typeof exp !== 'number') {

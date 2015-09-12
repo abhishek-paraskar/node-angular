@@ -7,8 +7,8 @@ userControllers.controller('NavbarCtrl', ['$rootScope', '$scope', '$location', '
 	//Prepare the left side menu list for navigation bar.
 	$scope.leftMenuItems = [
 		{path: '#/user-list', title: 'Users'},
-		{path: '#/profile-list', title: 'Profiles'},
-		{path: '#/holding-list', title: 'Holdings'}
+		{path: '#/profiles', title: 'Profiles'},
+		{path: '#/holdings', title: 'Holdings'}
 	];
 
 	//Check whether the user is logged in or not. Show and hide the navigation bar accordingly.
@@ -31,7 +31,7 @@ userControllers.controller('NavbarCtrl', ['$rootScope', '$scope', '$location', '
 /**
 	A controller for Profile list.
 **/
-userControllers.controller('ProfileListCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'Main', '$http', function($rootScope, $scope, $location, $localStorage, Main, $http){	
+userControllers.controller('ProfileCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'Main', '$http', function($rootScope, $scope, $location, $localStorage, Main, $http){	
 
 	//Setting the rootscope variable for selected menu.
 	$rootScope.selectedMenu = 'Profiles';
@@ -53,25 +53,9 @@ userControllers.controller('ProfileListCtrl', ['$rootScope', '$scope', '$locatio
 }]);
 
 /**
-	A controller for Add profile.
-**/
-userControllers.controller('AddProfileCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'Main', '$http', function($rootScope, $scope, $location, $localStorage, Main, $http){	
-	
-	//Setting the rootscope variable for selected menu.
-	$rootScope.selectedMenu = 'Profiles';
-}]);
-
-/**
-	A controller for Edit profile.
-**/
-userControllers.controller('EditProfileCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'Main', '$http', function($rootScope, $scope, $location, $localStorage, Main, $http){	
-	$rootScope.selectedMenu = 'Profiles';
-}]);
-
-/**
 	A controller for Holding List.
 **/
-userControllers.controller('HoldingListCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'Main', '$http', function($rootScope, $scope, $location, $localStorage, Main, $http){	
+userControllers.controller('HoldingCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'Main', '$http', function($rootScope, $scope, $location, $localStorage, Main, $http){	
 
 	//Setting the rootscope variable for selected menu.
 	$rootScope.selectedMenu = 'Holdings';
