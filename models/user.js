@@ -1,12 +1,17 @@
 "use strict";
 var bcrypt = require('bcrypt');
+var uuid = require("node-uuid");
 var jwt        = require("jsonwebtoken");
+
 var env       = process.env.NODE_ENV || "development";
 var config    = require('../config/config.json')[env];
 
 var salt = bcrypt.genSaltSync(10);
 
 var models = require("../models");
+var utils = require("../utils/mailer");
+
+
 
 module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define("User", 
@@ -23,12 +28,19 @@ module.exports = function(sequelize, DataTypes) {
     		type : DataTypes.STRING(45),
     		allowNull : false
     	},
-
     	last_name: {
     		type : DataTypes.STRING(45),
     		allowNull : false
     
-    	}
+    	},
+      is_activated: {
+        type : DataTypes.BOOLEAN(45),
+        allowNull : false
+      },
+      activateion_link: {
+        type : DataTypes.STRING(45),
+        allowNull : false
+      }
 	}, {
     	classMethods: {
           associate: function(models) {
@@ -53,20 +65,29 @@ module.exports = function(sequelize, DataTypes) {
                     } 
                   });
                   if(useAuthenticated){
-                    var payload = {
-                      email: authenticatedUser.email,
-                      name: authenticatedUser.name,
-                      last_name: authenticatedUser.last_name,
-                      id: authenticatedUser.id
+                    if(useAuthenticated.is_active){
+                      var payload = {
+                        email: authenticatedUser.email,
+                        name: authenticatedUser.name,
+                        last_name: authenticatedUser.last_name,
+                        id: authenticatedUser.id
+                      }
+                      var token = jwt.sign(payload, config.authSecret, {
+                        expiresInMinutes: 10 // expires in 3 mins
+                      });
+                      callback({
+                        success: true,
+                        message: 'User is authenticated',
+                        token: token
+                      });
+                    }else{
+
+                      callback({
+                        success: false,
+                        message: 'You have not confirmed your email address yet. We have sent you the confirmation email at (' + authenticatedUser.email +').',
+                        token: token
+                      });
                     }
-                    var token = jwt.sign(payload, config.authSecret, {
-                      expiresInMinutes: 1 // expires in 3 mins
-                    });
-                    callback({
-                      success: true,
-                      message: 'User is authenticated',
-                      token: token
-                    });
                   }else{
                     callback({ success: false, message: 'Authentication failed. Wrong password.' });
                   }
@@ -78,15 +99,21 @@ module.exports = function(sequelize, DataTypes) {
 
 
       		addUser : function(emailField, passwordField, nameField, lastNameField, profileIdField, holderIdField, callback){
+            var activationCode = uuid.v1();
       			User.create({
               email: emailField,
               password: bcrypt.hashSync(passwordField, salt),
               name: nameField,
               last_name: lastNameField,
               profile_id: profileIdField,
-              holding_id: holderIdField
+              holding_id: holderIdField,
+              is_activated: false,
+              activateion_link : activationCode
             }).then(function(user) {
-                callback({ success: true});
+                utils.sendMail(emailField, activationCode, function(response){
+                  callback(response);
+                });
+                //{ success: true});
             }).catch(function(error){
               callback({success : false, message : 'Unable to add user.', error: error});
             });
@@ -134,6 +161,25 @@ module.exports = function(sequelize, DataTypes) {
             }).then(function(user) {
               if(user){
                 callback({status : true, data : user});
+              }else
+                callback({success : false, message : 'User not found.'});
+            }).catch(function(error){
+              callback({success : false, message : 'User not found.', error: error});
+            });
+          },
+
+          activateUser : function(activationCode, callback){
+
+          
+            User.update({
+              is_activated: true
+            },{
+              where : {
+                activateion_link: activationCode
+              }
+            }).then(function(updateCount) {
+              if(updateCount){
+                callback({status : true,  message : 'Congratulations, your account has been activated.'});
               }else
                 callback({success : false, message : 'User not found.'});
             }).catch(function(error){

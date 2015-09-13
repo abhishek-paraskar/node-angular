@@ -8,15 +8,21 @@ var env       = process.env.NODE_ENV || "development";
 var config    = require('./config/config.json')[env];
 var models = require("./models");
 
+
 var app = express();
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+
+
 app.use(express.static(path.join(__dirname, 'app')));
 var home = require('./routes/home');
 app.use('/home', home);
+
+
 
 
 app.use(function(req, res, next) {

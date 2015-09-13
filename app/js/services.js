@@ -71,6 +71,9 @@ angular.module('userApp')
             getHoldingList: function(success, error) {
                 $http.get(baseUrl + '/holding/holding-list').success(success).error(error)
             },
+            activate: function(activationCode, success, error) {
+                $http.get(baseUrl + '/home/activate/' +activationCode ).success(success).error(error)
+            },
             logout: function(success) {
                 changeUser({});
                 delete $localStorage.token;

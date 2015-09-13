@@ -254,7 +254,7 @@ userControllers.controller('EditUserCtrl', ['$rootScope', '$scope', '$routeParam
 /**
 	A controller for Sig up.
 **/
-userControllers.controller('SignUpCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'Main', '$http', function($rootScope, $scope, $location, $localStorage, Main, $http){
+userControllers.controller('SignUpCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'Main', '$http', '$ngBootbox', function($rootScope, $scope, $location, $localStorage, Main, $http, $ngBootbox){
 	//Fetch the list of holdings to populate on edit user page.
     var profiles = function(){
     	Main.profiles(function(res) {
@@ -279,10 +279,34 @@ userControllers.controller('SignUpCtrl', ['$rootScope', '$scope', '$location', '
 
    	//Post the signup data to server.
     $scope.signUpSubmit = function(isValid){
+
+    	
+    	
 		if(isValid){
+			$(".loader-icon").show();
+			
 			Main.signUp($scope.signUp, function(res) {
+				$(".loader-icon").hide();
+
+		    	var options = {
+			        message: 'We have sent you the activation mail at ' + $scope.signUp.email + '. Please check you email.',
+			        title: 'Thank you!',
+			        className: 'test-class',
+			        buttons: {
+			             success: {
+			                 label: "Ok",
+			                 className: "btn-success",
+			                 callback: function() {  }
+			             }
+			        }
+			    };
+
+			    $ngBootbox.customDialog(options);
+				
 	            $location.path('/login');
+
 	        }, function(response) {
+	        	$(".loader-icon").hide();
 	            $scope.error =  response.message;
 	        })
 		}
@@ -310,6 +334,33 @@ userControllers.controller('LoginCtrl', ['$rootScope', '$scope', '$location', '$
 		}
    	}
 }]);
+
+/**
+	A controller for Edit Holding.
+**/
+userControllers.controller('ActivateUserCtrl', ['$rootScope', '$scope', '$routeParams', '$location', 'Main', '$http', function($rootScope, $scope, $routeParams, $location, Main, $http){
+	var activationCode = $routeParams.activationCode;
+	//Fetch the list of holdings to populate on edit user page.
+    var checkActivation = function(){
+    	Main.activate(activationCode, function(res) {
+	    	console.log(""  + res);
+	    	if(res.status){
+	    		$rootScope.success = res.message;
+				$location.path("/login");    		
+	    	}else{
+	    		$rootScope.error = res.message;
+				$location.path("/login");    		
+	    	}
+        }, function(response) {
+        	console.log(""  + response);
+        })
+    	
+    }
+    checkActivation();
+	//$location.path("/login");
+}]);
+
+
 
 
 /**

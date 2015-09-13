@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "salambc",
+    "password": "salambc",
+    "host": "smtp.gmail.com",
+    "port" : "465",
+    "ssl": "127.0.0.1"
+  },
+  "test": {
+    
+    "username": "salambc",
+    "password": "salambc",
+    "host": "assignment",
+    "ssl": "127.0.0.1"
+  },
+  "production": {
+    "username": "salambc",
+    "password": "salambc",
+    "host": "assignment",
+    "ssl": "127.0.0.1"
+  }
+
+}

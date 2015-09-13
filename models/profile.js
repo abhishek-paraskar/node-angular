@@ -64,6 +64,7 @@ module.exports = function(sequelize, DataTypes) {
       },
 
       getAllProfiles : function(callback){
+        
         Profile.findAll().then(function(profileList) {
             callback({success: true, data: profileList});
         }).catch(function(error){

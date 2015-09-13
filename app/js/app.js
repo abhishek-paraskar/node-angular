@@ -52,6 +52,11 @@ userApp.config(['$routeProvider', '$locationProvider', '$httpProvider', function
         controller: 'SignUpCtrl',
         secure: false
       }).
+      when('/activate/:activationCode', {
+        templateUrl: 'partials/activate.html',
+        controller: 'ActivateUserCtrl',
+        secure: false
+      }).
       when('/', {
         templateUrl: 'partials/home.html',
         controller: 'HomeCtrl',

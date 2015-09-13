@@ -5,6 +5,7 @@ var models = require("../models");
 var env       = process.env.NODE_ENV || "development";
 var config    = require('../config/config.json')[env];
 
+
 // ---------------------------------------------------------
 // authentication (no middleware necessary since this isnt authenticated)
 // ---------------------------------------------------------
@@ -38,6 +39,7 @@ router.post('/sign-up', function(req, res, next) {
 //  get the profiles from database.
 // ---------------------------------------------------------
 router.get('/profiles', function(req, res, next) {
+
 	models.Profile.getAllProfiles(function(response){
 		if(typeof response.success != "undefined" && !response.success)
 			res.status(500).send(response);
@@ -53,6 +55,20 @@ router.get('/profiles', function(req, res, next) {
 // ---------------------------------------------------------
 router.get('/holdings', function(req, res, next) {
 	models.Holding.getAllHolding(function(response){
+		if(typeof response.success != "undefined" && !response.success)
+			res.status(500).send(response);
+		else
+			res.json(response);
+	});
+	
+});
+
+// ---------------------------------------------------------
+//  get the holdings from database.
+// ---------------------------------------------------------
+router.get('/activate/:activation_code', function(req, res, next) {
+	
+	models.User.activateUser(req.params.activation_code, function(response){
 		if(typeof response.success != "undefined" && !response.success)
 			res.status(500).send(response);
 		else

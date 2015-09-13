@@ -21,7 +21,9 @@
     "sequelize-cli": "^1.9.1",
     "sequelize-values" : "0.1.0",
     "bcrypt" : "0.8.5",
-    "jsonwebtoken": "5.0.5"
+    "jsonwebtoken": "5.0.5",
+    "nodemailer" : "1.4.0",
+    "node-uuid" : "1.4.2"
   },
   "repository": {
     "type": "git",
