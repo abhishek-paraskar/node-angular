@@ -6,3 +6,57 @@ body{
 .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9 {
     float: unset;
 }
+.jumbotron h1{
+	font-size: 30px;
+}
+.jumbotron p{
+   	font-size: 16px;
+    margin-bottom: 5px;
+}
+.login-head{
+	background-color: #666666;
+    border-radius: 10px;
+    color: #fff !important;
+    font-size: 30px !important;
+    margin-bottom: 10px;
+    margin-top: 0;
+    padding: 5px;
+    text-align: center;
+}
+.jumbotron form{
+	margin-top: 30px;
+}
+.navbar{
+    background: #666666;
+    border-radius: 10px;
+    border: none;
+}
+.navbar a{
+    color: #fff !important;
+}
+.user-list-heading{
+    /*background-color: #666666;*/
+    /*border-radius: 10px;*/
+    /*color: #fff !important;*/
+    font-size: 30px !important;
+    margin-bottom: 50px;
+    margin-top: 0;
+    padding: 30px;
+    text-align: center;
+    background-image: linear-gradient(to bottom, #dbdbdb 0px, #e2e2e2 100%);
+    background-repeat: repeat-x;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.075) inset;
+}
+.delete-btn{
+    width: 10%;
+}
+.loader-icon{
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url('../img/ajax-loader.gif') 50% 50% no-repeat rgba(0,0,0,0.6);
+    display: none;
+}
