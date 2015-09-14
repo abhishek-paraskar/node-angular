@@ -28,6 +28,7 @@ Sequelize will automatically create the tables and relationships on the applicat
 It also adds some test profiles and holdings on applciation startup if both the tables are empty (check bin/www line no. 38 and 49).
 Need to check better approch for adding the default data on app startup.
 
+NOTE - You need to update the BASE URL (A url for nodejs) at line - 45 (/app/js/services.js)
 
 ## Running the app
      
