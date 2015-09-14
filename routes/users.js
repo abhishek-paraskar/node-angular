@@ -20,7 +20,7 @@ router.get('/user-list', function(req, res, next) {
 
 /* Add contact to database. */
 router.post('/add-user', function(req, res, next) {
-	models.User.addUser(req.body.email, req.body.password, req.body.name, req.body.last_name, req.body.profile_id, req.body.holding_id, function(response){
+	models.User.addUser(req.body.email, req.body.password, req.body.name, req.body.last_name, req.body.profile_id, req.body.holding_id, false, function(response){
 		if(typeof response.success != "undefined" && !response.success)
 			res.status(500).send(response);
 		else

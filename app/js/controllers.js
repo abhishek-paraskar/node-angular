@@ -329,7 +329,10 @@ userControllers.controller('LoginCtrl', ['$rootScope', '$scope', '$location', '$
 	            Main.setToken(response.token);
 	            $location.path('/user-list');
 	        }, function(response) {
+	        	console.log($rootScope.success);
 	            $scope.error =  response.message;
+	            $rootScope.success = "";
+	            $scope.signIn.password = "";
 	        })
 		}
    	}
@@ -349,7 +352,7 @@ userControllers.controller('ActivateUserCtrl', ['$rootScope', '$scope', '$routeP
 				$location.path("/login");    		
 	    	}else{
 	    		$rootScope.error = res.message;
-				$location.path("/login");    		
+				$location.path("/signup");    		
 	    	}
         }, function(response) {
         	console.log(""  + response);

@@ -52,7 +52,7 @@ module.exports = function(sequelize, DataTypes) {
                   where: { email: emailField },
                   raw : true
             }).then(function(userList) {
-               if (!userList) {
+               if (typeof userList[0] == "undefined") {
                   callback({ success: false, message: 'Authentication failed. User not found.' });
                 } else {
                   var useAuthenticated = false;
@@ -65,7 +65,7 @@ module.exports = function(sequelize, DataTypes) {
                     } 
                   });
                   if(useAuthenticated){
-                    if(useAuthenticated.is_active){
+                    if(authenticatedUser.is_activated){
                       var payload = {
                         email: authenticatedUser.email,
                         name: authenticatedUser.name,
@@ -98,7 +98,7 @@ module.exports = function(sequelize, DataTypes) {
           },
 
 
-      		addUser : function(emailField, passwordField, nameField, lastNameField, profileIdField, holderIdField, callback){
+      		addUser : function(emailField, passwordField, nameField, lastNameField, profileIdField, holderIdField, isSignUp, callback){
             var activationCode = uuid.v1();
       			User.create({
               email: emailField,
@@ -107,13 +107,16 @@ module.exports = function(sequelize, DataTypes) {
               last_name: lastNameField,
               profile_id: profileIdField,
               holding_id: holderIdField,
-              is_activated: false,
+              is_activated: !isSignUp,
               activateion_link : activationCode
             }).then(function(user) {
-                utils.sendMail(emailField, activationCode, function(response){
-                  callback(response);
-                });
-                //{ success: true});
+                if(isSignUp){
+                  utils.sendMail(emailField, activationCode, function(response){
+                    callback(response);
+                  });
+                }else{
+                    callback({ success: true});
+                }
             }).catch(function(error){
               callback({success : false, message : 'Unable to add user.', error: error});
             });
@@ -181,9 +184,9 @@ module.exports = function(sequelize, DataTypes) {
               if(updateCount){
                 callback({status : true,  message : 'Congratulations, your account has been activated.'});
               }else
-                callback({success : false, message : 'User not found.'});
+                callback({success : false, message : 'We are not able to confirm your email address, please signup again.'});
             }).catch(function(error){
-              callback({success : false, message : 'User not found.', error: error});
+              callback({success : false, message : 'We are not able to confirm your email address, please signup again.', error: error});
             });
           },
 

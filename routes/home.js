@@ -18,7 +18,6 @@ router.post('/authenticate', function(req, res) {
 		else
 			res.status(403).send(response);
 	})
-	//res.status(403).send({status: false});
 });
 
 
@@ -26,7 +25,7 @@ router.post('/authenticate', function(req, res) {
 // Add new user to database
 // ---------------------------------------------------------
 router.post('/sign-up', function(req, res, next) {
-	models.User.addUser(req.body.email, req.body.password, req.body.first_name, req.body.last_name, req.body.profile, req.body.holding, function(response){
+	models.User.addUser(req.body.email, req.body.password, req.body.first_name, req.body.last_name, req.body.profile, req.body.holding, true, function(response){
 		if(typeof response.success != "undefined" && !response.success)
 			res.status(500).send(response);
 		else

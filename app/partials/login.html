@@ -7,6 +7,10 @@
         <div class="alert alert-danger" ng-show="error">
             {{error}}
         </div>
+
+         <div class="alert alert-success" ng-show="success">
+            {{success}}
+        </div>
         <!-- LOGIN FORM -->
         <form name="signInForm" ng-submit="submitSignInForm(signInForm.$valid)" novalidate>
             <div class="form-group" ng-class="{ 'has-error' : signInForm.email.$invalid && !signInForm.email.$pristine }">

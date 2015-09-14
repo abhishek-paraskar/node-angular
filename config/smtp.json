@@ -1,23 +1,33 @@
 {
   "development": {
-    "username": "salambc",
-    "password": "salambc",
-    "host": "smtp.gmail.com",
-    "port" : "465",
-    "ssl": "127.0.0.1"
+    "username": "nodeangulardemo@gmail.com",
+    "password": "NodeAngu1234",
+    "service" : "Gmail",
+    "host" : "smtp.gmail.com",
+    "port" : "587",
+    "secure" : "true",
+    "defaultSender" : "nodeangulardemo@gmail.com",
+    "defaultServer" : "http://localhost:3000/"
+
   },
   "test": {
-    
-    "username": "salambc",
-    "password": "salambc",
-    "host": "assignment",
-    "ssl": "127.0.0.1"
+    "username": "nodeangulardemo@gmail.com",
+    "password": "NodeAngu1234",
+    "service" : "Gmail",
+    "host" : "smtp.gmail.com",
+    "port" : "587",
+    "secure" : "true",
+    "defaultSender" : "nodeangulardemo@gmail.com",
+    "defaultServer" : "http://localhost:3000/"
   },
   "production": {
-    "username": "salambc",
-    "password": "salambc",
-    "host": "assignment",
-    "ssl": "127.0.0.1"
+    "username": "nodeangulardemo@gmail.com",
+    "password": "NodeAngu1234",
+    "service" : "Gmail",
+    "host" : "smtp.gmail.com",
+    "port" : "587",
+    "secure" : "true",
+    "defaultSender" : "nodeangulardemo@gmail.com",
+    "defaultServer" : "http://localhost:3000/"
   }
-
 }
